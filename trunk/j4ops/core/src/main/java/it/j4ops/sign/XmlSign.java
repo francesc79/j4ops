@@ -471,7 +471,7 @@ public class XmlSign extends BaseSign {
         
         try {
             xmlSign.init();
-            //spdfza xmlSign.sign(date, XmlSignMode.Enveloped, fis, fos);
+            //xmlSign.sign(date, XmlSignMode.Enveloped, fis, fos);
             
             //xmlSign.sign(date, XmlSignMode.Detached, f.toURI().toURL().toString(), null, fos);
             xmlSign.sign(date, XmlSignMode.Enveloped, f.toURI().toURL().toString(), fis, fos);
