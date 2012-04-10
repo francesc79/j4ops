@@ -164,60 +164,12 @@ public class XmlVerify extends BaseVerify {
                     signInfoNode.getAttributes().removeNamedItem(attrName);
                 }    
             }    
-            
-            /*
-            // find signed properties
-            Element signedPropertyElement = (Element) XPathAPI.selectSingleNode(siguatureElement, "//ds:SignedProperties", dsCtx);   
-            if (signedPropertyElement == null) {            
-                signedPropertyElement = (Element)XPathAPI.selectSingleNode(siguatureElement, "//xades:SignedProperties", xadesCtx);
-            }
-            if (signedPropertyElement != null) {               
-                numAttributes = signedPropertyElement.getAttributes().getLength();                
-                if (numAttributes > 0) {
-                    for (int i = 0; i < numAttributes; i++) {
-                        String attrName = signedPropertyElement.getAttributes().item(i).getNodeName();
-                        if ("id".equalsIgnoreCase(attrName)) {    
-                            
-                            System.out.println ("------------------------------------------FIND:" + signedPropertyElement.getAttributes().item(i).getNodeValue()); //spdfza
-                            
-                            signedPropertyElement.setIdAttribute(attrName, true);
-                        }
-                    }    
-                }  
-            }
-            * 
-            */
 
-            /*
-            // find signed properties
-            NodeList nlSignedProperty = XPathAPI.selectNodeList(siguatureElement, "//ds:SignedProperties", dsCtx);
-            if (nlSignedProperty == null || nlSignedProperty.getLength() <= 0) {
-                nlSignedProperty = XPathAPI.selectNodeList(siguatureElement, "//xades:SignedProperties", xadesCtx);
-            }            
-            for (int i = 0; i < nlSignedProperty.getLength(); i ++) {
-                Element signedPropertyElement = (Element)nlSignedProperty.item(i); 
-                numAttributes = signedPropertyElement.getAttributes().getLength();                
-                if (numAttributes > 0) {
-                    for (int j = 0; j < numAttributes; j++) {
-                        String attrName = signedPropertyElement.getAttributes().item(j).getNodeName();
-                        if ("id".equalsIgnoreCase(attrName)) {    
-                            
-                            System.out.println ("-----------------------------------------------FIND:" + signedPropertyElement.getAttributes().item(j).getNodeValue()); //spdfza
-                            
-                            signedPropertyElement.setIdAttribute(attrName, true);
-                        }
-                    }    
-                }                
-            } 
-            */
-            
-            
             // get signature element
             XMLSignature xmlSig = new XMLSignature(siguatureElement, "");
             xmlSig.setFollowNestedManifests(true); 
             xmlSig.addResourceResolver(new ResourceResolverInternal (siguatureElement, dsCtx, xadesCtx));
             
-
             // get certificate element
             Element certElement = 
                 (Element) XPathAPI.selectSingleNode(siguatureElement, "//ds:X509Certificate", dsCtx);   
