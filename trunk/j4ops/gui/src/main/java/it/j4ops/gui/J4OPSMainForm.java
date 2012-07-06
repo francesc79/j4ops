@@ -48,8 +48,8 @@ import org.apache.log4j.xml.DOMConfigurator;
 public class J4OPSMainForm extends javax.swing.JFrame {
     private Logger logger = Logger.getLogger(this.getClass());     
     private CertificateTableModel trustCertsTableModel = new CertificateTableModel();    
-    private DefaultComboBoxModel<SignProvider> modelSignProviders = new DefaultComboBoxModel<SignProvider>();
-    private DefaultComboBoxModel<SignType> modelSignTypes = new DefaultComboBoxModel<SignType>(); 
+    private DefaultComboBoxModel modelSignProviders = new DefaultComboBoxModel();
+    private DefaultComboBoxModel modelSignTypes = new DefaultComboBoxModel(); 
     private GuiSignHandler signHandler = new GuiSignHandler(this);
     private ConfigDialog configDialog = new ConfigDialog (this,true);
     private TokenInfoTableModel tableModelTokens = new TokenInfoTableModel ();
@@ -979,7 +979,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
 
     private void jcmbSignTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbSignTypeActionPerformed
         
-        DefaultComboBoxModel<String> modelSignMode = null;
+        DefaultComboBoxModel modelSignMode = null;
         String inputFile = jedtSignInput.getText();
         SignType signType = (SignType)jcmbSignType.getSelectedItem();
         switch (signType) {
@@ -987,8 +987,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             case CAdES_BES: 
             case CAdES_T:   
                 
-                modelSignMode = new DefaultComboBoxModel<String>(new String[]{CmsSignMode.Attached.toString(), 
-                                                                              CmsSignMode.Detached.toString()});
+                modelSignMode = new DefaultComboBoxModel(new String[]{CmsSignMode.Attached.toString(), 
+                                                                      CmsSignMode.Detached.toString()});
                 jcmbSignMode.setModel (modelSignMode);
                 jcmbSignMode.setEnabled(true);
                 jcmbMultiSignMode.setModel (modelSignMode);
@@ -1019,9 +1019,9 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             case XAdES_BES:
             case XAdES_T:        
                 
-                modelSignMode = new DefaultComboBoxModel<String>(new String[]{XmlSignMode.Enveloped.toString(), 
-                                                                              XmlSignMode.Enveloping.toString(), 
-                                                                              XmlSignMode.Detached.toString()});
+                modelSignMode = new DefaultComboBoxModel(new String[]{XmlSignMode.Enveloped.toString(), 
+                                                                      XmlSignMode.Enveloping.toString(), 
+                                                                      XmlSignMode.Detached.toString()});
                 jcmbSignMode.setModel (modelSignMode);
                 jcmbSignMode.setEnabled(true); 
                 jcmbMultiSignMode.setModel (modelSignMode);

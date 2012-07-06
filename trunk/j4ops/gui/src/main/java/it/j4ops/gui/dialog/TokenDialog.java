@@ -20,7 +20,7 @@ import javax.swing.DefaultListModel;
  * @author zanutto
  */
 public class TokenDialog extends javax.swing.JDialog {
-    private DefaultListModel<TokenInfo> modelListToken = new DefaultListModel<TokenInfo>();
+    private DefaultListModel modelListToken = new DefaultListModel();
     private TokenInfo tokenSelected;
     
     
