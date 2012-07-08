@@ -169,6 +169,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         jbutCounterSign = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jcmbSignMode = new javax.swing.JComboBox();
+        jLabel10 = new javax.swing.JLabel();
+        jedtPassword = new javax.swing.JPasswordField();
         jpanMultiSign = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jedtMultiSignDir = new javax.swing.JTextField();
@@ -180,6 +182,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         jedtMultiSignOutput = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
         jcmbMultiSignMode = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
+        jedtMultiPassword = new javax.swing.JPasswordField();
         jpanVerify = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jedtVerifyInput = new javax.swing.JTextField();
@@ -276,6 +280,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Password:");
+
         javax.swing.GroupLayout jpanSignLayout = new javax.swing.GroupLayout(jpanSign);
         jpanSign.setLayout(jpanSignLayout);
         jpanSignLayout.setHorizontalGroup(
@@ -283,6 +289,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             .addGroup(jpanSignLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jpanSignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel10)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
@@ -307,7 +314,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jcmbSignMode, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jcmbSignMode, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jedtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(69, Short.MAX_VALUE))
         );
 
@@ -321,6 +329,10 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                     .addComponent(jedtSignInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jbutSignInput))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpanSignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jedtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpanSignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -337,7 +349,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                     .addComponent(jbutSign)
                     .addComponent(jbutAddSign)
                     .addComponent(jbutCounterSign))
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         jtabOperations.addTab("Sign", jpanSign);
@@ -370,6 +382,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
 
         jLabel9.setText("Sign Mode:");
 
+        jLabel11.setText("Password:");
+
         javax.swing.GroupLayout jpanMultiSignLayout = new javax.swing.GroupLayout(jpanMultiSign);
         jpanMultiSign.setLayout(jpanMultiSignLayout);
         jpanMultiSignLayout.setHorizontalGroup(
@@ -381,7 +395,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                     .addGroup(jpanMultiSignLayout.createSequentialGroup()
                         .addGroup(jpanMultiSignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jpanMultiSignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpanMultiSignLayout.createSequentialGroup()
@@ -394,7 +409,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jcmbMultiSignMode, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jbutMultiSign, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jbutMultiSign, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jedtMultiPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 31, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -408,6 +424,10 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                     .addComponent(jbutMultiSignDir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpanMultiSignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jedtMultiPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpanMultiSignLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jcmbMultiSignType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
@@ -415,7 +435,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbutMultiSign)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -665,7 +685,9 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         SignType signType = (SignType)jcmbSignType.getSelectedItem();
         Properties prop = configDialog.getProperties();
         FileInputStream fis = null;
-        FileOutputStream fos = null;        
+        FileOutputStream fos = null;  
+        String password = new String (jedtPassword.getPassword());
+        if (password != null && password.length() <= 0) password = null;
         try {
             switch (signType) {
                 case Pkcs7:
@@ -723,7 +745,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                         fos = new FileOutputStream (jedtSignOutput.getText());
                         try {
                             pdfSign.init();
-                            pdfSign.sign(new Date(), fis, fos); 
+                            pdfSign.sign(new Date(), fis, password, fos); 
                         }
                         finally {
                             pdfSign.destroy();
@@ -801,7 +823,9 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         SignType signType = (SignType)jcmbSignType.getSelectedItem();
         Properties prop = configDialog.getProperties();
         FileInputStream fis = null;
-        FileOutputStream fos = null;        
+        FileOutputStream fos = null;     
+        String password = new String (jedtPassword.getPassword());
+        if (password != null && password.length() <= 0) password = null;
         try {
             switch (signType) {
                 case Pkcs7:
@@ -859,7 +883,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                         fos = new FileOutputStream (jedtSignOutput.getText());
                         try {
                             pdfSign.init();
-                            pdfSign.addSign(new Date(), fis, fos); 
+                            pdfSign.addSign(new Date(), fis, password, fos); 
                         }
                         finally {
                             pdfSign.destroy();
@@ -1339,7 +1363,9 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         FileInputStream fis = null;
         FileOutputStream fos = null; 
         jedtMultiSignOutput.setText("Multi Sign");
-        SignType signType = (SignType)jcmbMultiSignType.getSelectedItem();        
+        SignType signType = (SignType)jcmbMultiSignType.getSelectedItem();  
+        String password = new String (jedtMultiPassword.getPassword());
+        if (password != null && password.length() <= 0) password = null;        
         try {
             switch (signType) {
                 case Pkcs7:
@@ -1416,7 +1442,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                             fis = new FileInputStream (inputFile);
                             fos = new FileOutputStream (outputFile);                                                
                             try {
-                                pdfSign.sign(new Date(), fis, fos); 
+                                pdfSign.sign(new Date(), fis, password, fos); 
                             }
                             finally {
                                 try {
@@ -1651,6 +1677,8 @@ public class J4OPSMainForm extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1682,8 +1710,10 @@ public class J4OPSMainForm extends javax.swing.JFrame {
     private javax.swing.JComboBox jcmbSignMode;
     private javax.swing.JComboBox jcmbSignProvider;
     private javax.swing.JComboBox jcmbSignType;
+    private javax.swing.JPasswordField jedtMultiPassword;
     private javax.swing.JTextField jedtMultiSignDir;
     private javax.swing.JTextArea jedtMultiSignOutput;
+    private javax.swing.JPasswordField jedtPassword;
     private javax.swing.JTextField jedtSignInput;
     private javax.swing.JTextField jedtSignOutput;
     private javax.swing.JTextField jedtVerifyDataFile;
