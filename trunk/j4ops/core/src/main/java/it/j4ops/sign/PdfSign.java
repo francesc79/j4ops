@@ -42,7 +42,6 @@ import org.bouncycastle.util.Store;
  */
 public class PdfSign extends BaseSign {
     private Logger logger = Logger.getLogger(this.getClass());     
-    //private static final int CONTENTS_SIZE = 0x2830;
     private static final int CONTENTS_SIZE = 0x2830;
     
     public PdfSign (SignProvider signProvider, SignHandler signHandler, Properties properties) {
