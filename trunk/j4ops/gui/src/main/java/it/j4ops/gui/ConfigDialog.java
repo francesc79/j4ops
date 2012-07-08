@@ -12,9 +12,7 @@ package it.j4ops.gui;
 
 import static it.j4ops.PropertyConstants.*;
 import it.j4ops.SignType;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -23,6 +21,8 @@ import org.apache.log4j.Logger;
  * @author zanutto
  */
 public class ConfigDialog extends javax.swing.JDialog {
+    private static final String FileConfig = "j4ops.properties";
+        
     public static final String FileConfigPKCS11Tokens = "PKCS11Tokens";
     public static final String FilePKCS12KeyStore = "PKCS12KeyStore";
     
@@ -39,8 +39,8 @@ public class ConfigDialog extends javax.swing.JDialog {
     
     private Properties getDefault () {
         Properties prop = new Properties ();
-        prop.setProperty(FileConfigPKCS11Tokens, "./tokens.xml");   
-        prop.setProperty(FilePKCS12KeyStore, "./j4ops.p12");
+        prop.setProperty(FileConfigPKCS11Tokens, "tokens.xml");   
+        prop.setProperty(FilePKCS12KeyStore, "j4ops.p12");
         
         prop.setProperty(SecurityProvider.getLiteral(), "BC");             
         prop.setProperty(DigestAlgName.getLiteral(), "SHA256");
@@ -62,19 +62,24 @@ public class ConfigDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        FileInputStream fis = null;
+        InputStream is = null;
         try {
-            fis = new FileInputStream("j4ops.properties");
-            properties.load(fis);
+            if (new File (FileConfig).exists() == true) {
+                is = new FileInputStream(FileConfig);
+            }
+            else {
+                is = getClass().getClassLoader().getResourceAsStream (FileConfig);
+            }
+            properties.load(is);
         }
         catch (FileNotFoundException ex) {
             logger.fatal(ex.getMessage(), ex);
         }
         finally {
             try {
-                if (fis != null) {
-                    fis.close();
-                    fis = null;
+                if (is != null) {
+                    is.close();
+                    is = null;
                 }
             }
             catch (Exception ex) {}
@@ -301,7 +306,7 @@ public class ConfigDialog extends javax.swing.JDialog {
                 properties.setProperty(EncryptionAlgName.getLiteral(), (String)jcmbEncryptionAlgName.getSelectedItem());                 
                 properties.setProperty(EnvelopeEncode.getLiteral(), (String)jcmbEnvelopeEncode.getSelectedItem());                 
 
-                fos = new FileOutputStream("j4ops.properties");
+                fos = new FileOutputStream(FileConfig);
                 properties.store(fos, "");
             }
             finally {
