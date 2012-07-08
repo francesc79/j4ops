@@ -4,10 +4,7 @@
  */
 package it.j4ops.token;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
@@ -106,9 +103,12 @@ public class TokenRecognize {
     
     public static TokenInfo recognize (String file, TokenInfo cardInfo) throws Exception {
         ArrayList<Token> lstTokens = new ArrayList<Token>();        
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream (file);
+        InputStream is = null;
+        try {            
+            is = TokenRecognize.class.getClassLoader().getResourceAsStream (file);
+            if (is == null) {            
+                is = new FileInputStream (file);
+            }
 
             // parsing files
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -122,7 +122,7 @@ public class TokenRecognize {
                     return new InputSource(new StringReader(""));
                 }
             });                                    
-            Document doc = parser.parse(fis);        
+            Document doc = parser.parse(is);        
             Element rootElement = doc.getDocumentElement();
             NodeList nodeLst = rootElement.getChildNodes();
             for (int index = 0; index < nodeLst.getLength(); index ++) {
@@ -140,9 +140,9 @@ public class TokenRecognize {
         }
         finally {
             try {
-                if (fis != null) {
-                    fis.close();
-                    fis = null;
+                if (is != null) {
+                    is.close();
+                    is = null;
                 }
             }
             catch (Exception ex){}
