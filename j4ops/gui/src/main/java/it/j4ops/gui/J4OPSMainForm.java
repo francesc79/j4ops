@@ -46,7 +46,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * @author zanutto
  */
 public class J4OPSMainForm extends javax.swing.JFrame {
-    private Logger logger = Logger.getLogger(this.getClass());     
+    private static Logger logger = Logger.getLogger(J4OPSMainForm.class);     
     private CertificateTableModel trustCertsTableModel = new CertificateTableModel();    
     private DefaultComboBoxModel modelSignProviders = new DefaultComboBoxModel();
     private DefaultComboBoxModel modelSignTypes = new DefaultComboBoxModel(); 
@@ -96,6 +96,12 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         column.setPreferredWidth(icon.getIconWidth());
         jtabTrustedCerts.setRowHeight(icon.getIconHeight() + 5);
         reloadTrustCerts ();
+        
+        // set size row
+        column = jtabVerifyInfo.getColumn("GetCert");
+        column.setWidth(icon.getIconWidth());
+        column.setPreferredWidth(icon.getIconWidth());
+        jtabVerifyInfo.setRowHeight(icon.getIconHeight() + 5);        
     }
     
     private void reloadTrustCerts () throws Exception {
@@ -432,6 +438,11 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         });
 
         jtabVerifyInfo.setModel(tableModelVerify);
+        jtabVerifyInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtabVerifyInfoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtabVerifyInfo);
 
         jlabVerifyDataFile.setText("Data File:");
@@ -1499,7 +1510,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
     private void jtabTrustedCertsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtabTrustedCertsMouseClicked
 
         if (evt.getClickCount() == 2){
-            int row = jtabTrustedCerts.getSelectedRow();;
+            int row = jtabTrustedCerts.getSelectedRow();
             X509Certificate x509Cert = ((CertificateTableModel)jtabTrustedCerts.getModel()).getCertificate(row);
             try {
                 JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
@@ -1560,6 +1571,41 @@ public class J4OPSMainForm extends javax.swing.JFrame {
         }                
     }//GEN-LAST:event_jcmbSignModeActionPerformed
 
+    private void jtabVerifyInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtabVerifyInfoMouseClicked
+        if (evt.getClickCount() == 2){
+            int row = jtabVerifyInfo.getSelectedRow();
+            X509Certificate x509Cert = ((VerifyTableModel)jtabVerifyInfo.getModel()).getCertificate(row);
+            try {
+                JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+                int returnVal = chooser.showOpenDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    String path = chooser.getCurrentDirectory().getCanonicalPath();
+                    path = path + System.getProperty("file.separator") + chooser.getSelectedFile().getName();
+
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream (path);
+                        fos.write(x509Cert.getEncoded());
+                        fos.flush();
+                    }
+                    finally {
+                        try {
+                            if (fos != null) {
+                                fos.close();
+                                fos = null;
+                            }
+                        }
+                        catch (Exception ex) {}
+                    }
+                }
+            }
+            catch (Exception ex) {
+                logger.fatal(ex.getMessage(), ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }             
+        }
+    }//GEN-LAST:event_jtabVerifyInfoMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1592,12 +1638,13 @@ public class J4OPSMainForm extends javax.swing.JFrame {
 
             @Override
             public void run() {
+             
                 try {
                     DOMConfigurator.configure("log4j.xml");
                     new J4OPSMainForm().setVisible(true);
                 }
                 catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.fatal(ex.toString(), ex);
                 }
             }
         });
@@ -1683,29 +1730,48 @@ class TokenInfoTableModel extends DefaultTableModel {
     }    
 }
 
-class VerifyTableModel extends DefaultTableModel {   
+class VerifyTableModel extends DefaultTableModel {    
+    private List<X509Certificate> lstCerts = new ArrayList<X509Certificate>();
     
     public VerifyTableModel () {
-        setDataVector(new Object[0][0], new String[]{"Level", "Owner", "Organization", "Issuer", "DateSign", "SignType", "isCounterSign"});
+        setDataVector(new Object[0][0], new String[]{"Level", "Owner", "Organization", "Issuer", "DateSign", "SignType", "isCounterSign", "GetCert"});
     }
+    
+    public X509Certificate getCertificate (int row) {
+        return lstCerts.get(row);
+    }  
     
     public void removeAll () {
         for (int index = 0; index < getRowCount(); index++) {
             removeRow(index);      
         }
         getDataVector().clear();
+        lstCerts.clear();
     }
     
     public void addSignerInfo (SignerInfo signerInfo) {
         SimpleDateFormat sdf = new SimpleDateFormat ("dd-MM-yyyy HH:mm:ss");
-        insertRow(getRowCount(), new String[]{"" + signerInfo.getLevel(),
+        insertRow(getRowCount(), new Object[]{"" + signerInfo.getLevel(),
                                               signerInfo.getAuthor(),
                                               DNParser.parse(signerInfo.getX509Cert().getSubjectDN().toString(), "O"),
                                               DNParser.parse(signerInfo.getX509Cert().getIssuerDN().toString(), "CN"),
                                               sdf.format(signerInfo.getDateSign()),
                                               "" + signerInfo.getSignType(),
-                                              "" + signerInfo.isCounterSignature()});       
+                                              "" + signerInfo.isCounterSignature(),
+                                              new ImageIcon(getClass().getClassLoader().getResource("images/certificate.gif"))});       
+        
+        lstCerts.add(signerInfo.getX509Cert());        
     } 
+    
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if ((getColumnCount() - 1) == columnIndex) {
+            return ImageIcon.class;
+        }
+        else {
+            return String.class;
+        }
+    }    
     
     @Override
     public boolean isCellEditable(int row, int column) {
@@ -1715,7 +1781,7 @@ class VerifyTableModel extends DefaultTableModel {
 
 
 class CertificateTableModel extends DefaultTableModel {  
-    List<X509Certificate> lstCerts = new ArrayList<X509Certificate>();
+    private List<X509Certificate> lstCerts = new ArrayList<X509Certificate>();
     
     public CertificateTableModel () {
         setDataVector(new Object[0][], 
@@ -1731,6 +1797,7 @@ class CertificateTableModel extends DefaultTableModel {
             removeRow(index);      
         }
         getDataVector().clear();
+        lstCerts.clear();
     }
     
     public void addX509Certificate (X509Certificate cert) {

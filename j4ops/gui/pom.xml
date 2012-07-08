@@ -64,10 +64,11 @@
             <resource> 
                 <directory>${basedir}/src/main/resources</directory> 
                 <includes> 
-                    <include>**/*.gif</include> 
+                    <include>**/*.gif</include>  
+                    <include>*.properties</include>
                 </includes> 
                 <filtering>false</filtering> 
-            </resource> 
+            </resource>            
         </resources>     
         <plugins>
             <plugin>
