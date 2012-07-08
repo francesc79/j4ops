@@ -126,11 +126,14 @@
     <build>       
 	  	<resources>
 	    	<resource>
-	      		<directory>src/main/resources</directory>
+	      		<directory>${basedir}/src/main/resources</directory>
                 <filtering>false</filtering>
                 <includes>
                     <include>libpkcs11wrapper.so</include>
-                    <include>pkcs11wrapper.dll</include>                    
+                    <include>libpkcs11wrapper.dll</include>    
+                    <include>*.ks</include> 
+                    <include>*.p12</include>  
+                    <include>*.xml</include>                    
                 </includes>
 	    	</resource>
 	  	</resources>    
