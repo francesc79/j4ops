@@ -97,10 +97,13 @@ public class X509Util {
     public static Set<X509Certificate> loadKeyStore (String keyFile, String keyPass, String keyStoreType) throws Exception {
         Set<X509Certificate> lstCerts = new HashSet<X509Certificate> ();
         KeyStore ks = KeyStore.getInstance(keyStoreType);
-        FileInputStream fis = null;
+        InputStream is = null;
         try {
-            fis = new FileInputStream(keyFile);
-            ks.load (fis, keyPass.toCharArray());
+            is = X509Util.class.getClassLoader().getResourceAsStream (keyFile);
+            if (is == null) {             
+                is = new FileInputStream(keyFile);
+            }
+            ks.load (is, keyPass.toCharArray());
             
             Enumeration<String> aliases = ks.aliases();
             while (aliases.hasMoreElements()) {
@@ -125,9 +128,9 @@ public class X509Util {
         }
         finally {
             try {
-                if (fis != null) {
-                    fis.close();
-                    fis = null;
+                if (is != null) {
+                    is.close();
+                    is = null;
                 }
             }
             catch (Exception ex) {}

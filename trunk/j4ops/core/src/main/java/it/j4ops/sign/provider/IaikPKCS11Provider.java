@@ -10,6 +10,7 @@ import iaik.pkcs.pkcs11.objects.RSAPrivateKey;
 import static iaik.pkcs.pkcs11.wrapper.PKCS11Constants.*;
 import it.j4ops.util.HexString;
 import it.j4ops.util.IaikUtil;
+import it.j4ops.util.NativeLibLoader;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
@@ -21,13 +22,25 @@ import org.apache.log4j.Logger;
  * @author fzanutto
  */
 public class IaikPKCS11Provider extends PKCS11Provider {
-    private Logger logger = Logger.getLogger(this.getClass()); 
+    private static Logger logger = Logger.getLogger (IaikPKCS11Provider.class); 
     private KeyIDAndX509Cert selectKeyIDAndCertificate;    
 
     private Mechanism mechanismSignAlgId = null;
     private Module pkcs11Module = null;
     private Session session = null;
     private boolean flagInit = false;
+    
+	static {
+        try {
+            System.loadLibrary("pkcs11wrapper");
+        } catch (UnsatisfiedLinkError e) {
+            try {
+				NativeLibLoader.loadLib ("", "/libpkcs11wrapper");
+			} catch (Exception ex) {
+				logger.fatal(ex.getMessage(), ex);
+			}
+        }
+	}        
     
     public IaikPKCS11Provider(String tokensConfig) {
         super(tokensConfig);        
