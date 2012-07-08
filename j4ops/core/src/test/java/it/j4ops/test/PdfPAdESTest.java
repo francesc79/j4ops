@@ -52,7 +52,7 @@ public class PdfPAdESTest extends TestCase {
         FileOutputStream fos = new FileOutputStream ("./test/PAdES/sign.pdf");                     
         try {
             pdfSign.init();
-            pdfSign.sign(new Date(), fis, fos);
+            pdfSign.sign(new Date(), fis, null, fos);
         }
         finally {
             pdfSign.destroy();
@@ -70,7 +70,7 @@ public class PdfPAdESTest extends TestCase {
         FileOutputStream fos = new FileOutputStream ("./test/PAdES/add_sign.pdf");                     
         try {
             pdfSign.init();
-            pdfSign.addSign(new Date(), fis, fos);
+            pdfSign.addSign(new Date(), fis, null, fos);
         }
         finally {
             pdfSign.destroy();

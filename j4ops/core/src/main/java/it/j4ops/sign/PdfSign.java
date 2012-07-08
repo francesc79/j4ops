@@ -34,7 +34,6 @@ import org.bouncycastle.cms.CMSProcessableByteArray;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.tsp.TimeStampToken;
 import org.bouncycastle.util.CollectionStore;
-import org.bouncycastle.util.Store;
 
 /**
  *
@@ -48,7 +47,7 @@ public class PdfSign extends BaseSign {
         super(signProvider, signHandler, properties); 
     }    
     
-    public void sign (Date signingTime, InputStream srcIS, OutputStream destOS) throws Exception {        
+    public void sign (Date signingTime, InputStream srcIS, String ownerPassword, OutputStream destOS) throws Exception {        
         // check if need inizialization
         if (isInitialized() == false) {
             throw new Exception ("need initialization");
@@ -59,7 +58,7 @@ public class PdfSign extends BaseSign {
         List<X509Certificate> x509CertChain = getCertificateChain();
 
         // read pdf
-        PdfReader reader = new PdfReader(srcIS);
+        PdfReader reader = new PdfReader(srcIS, (ownerPassword != null)?ownerPassword.getBytes():null);
 
         // get numbers of signatures
         AcroFields af = reader.getAcroFields();
@@ -79,6 +78,9 @@ public class PdfSign extends BaseSign {
         else {
             stamper = PdfStamper.createSignature(reader, destOS, '\0', null, true);
             logger.debug("add signature");
+        }
+        if (ownerPassword != null) {
+            stamper.setEncryption(ownerPassword.getBytes(), ownerPassword.getBytes(), reader.getPermissions(), true);
         }
         
         // add signature information
@@ -182,8 +184,8 @@ public class PdfSign extends BaseSign {
         sap.close(dic2);    
     }
     
-    public void addSign (Date signingTime, InputStream srcIS, OutputStream destOS) throws Exception {
-        sign (signingTime, srcIS, destOS);
+    public void addSign (Date signingTime, InputStream srcIS, String ownerPassword, OutputStream destOS) throws Exception {
+        sign (signingTime, srcIS, ownerPassword, destOS);
     }       
 
     public static void main (String []args) throws Exception {
@@ -223,10 +225,10 @@ public class PdfSign extends BaseSign {
         PdfSign pdfSign = new PdfSign (signProvider, signHandler, prop);
         
         FileInputStream fis = new FileInputStream ("libre.pdf");      
-        FileOutputStream fos = new FileOutputStream ("libre_sign.pdf");            
+        FileOutputStream fos = new FileOutputStream ("libre_sign.pdf");
         try {
             pdfSign.init();
-            pdfSign.sign(date, fis, fos);
+            pdfSign.sign(date, fis, null, fos);
         }
         finally {
             pdfSign.destroy();
