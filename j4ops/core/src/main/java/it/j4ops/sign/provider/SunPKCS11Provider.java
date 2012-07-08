@@ -67,6 +67,7 @@ public class SunPKCS11Provider extends PKCS11Provider {
                         
         // get algorithm
         algorithm = String.format ("%swith%s", digestAlgName, encryptionAlgName);          
+        logger.debug(String.format("algorithm %s", algorithm));        
         
         // check if the provider is in use
         if (Security.getProvider(sunPKCS11.getName()) != null) {
