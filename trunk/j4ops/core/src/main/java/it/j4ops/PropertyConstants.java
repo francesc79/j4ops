@@ -18,6 +18,7 @@ public enum PropertyConstants {
     TSAPassword("TSAPassword"), 
     SecurityProvider("SecurityProvider"), 
     VerifyCRL("VerifyCRL"),
+    VerifyCertificate("VerifyCertificate"),    
     FileKeyStoreTrustedRootCerts("FileKeyStoreTrustedRootCerts"),
     PassKeyStoreTrustedRootCerts("PassKeyStoreTrustedRootCerts");  
     
