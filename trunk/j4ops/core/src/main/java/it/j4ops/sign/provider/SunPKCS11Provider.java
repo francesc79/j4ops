@@ -129,6 +129,12 @@ public class SunPKCS11Provider extends PKCS11Provider {
             if (Security.getProvider(sunPKCS11.getName()) != null) {
                 Security.removeProvider(sunPKCS11.getName());
             }
+            try {
+                sunPKCS11.logout();
+            }
+            catch (Exception ex) {}
+            sunPKCS11.clear();
+            sunPKCS11 = null;
         }
         flagInit = false;        
     }

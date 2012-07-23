@@ -11,6 +11,7 @@ import static iaik.pkcs.pkcs11.wrapper.PKCS11Constants.*;
 import it.j4ops.util.HexString;
 import it.j4ops.util.IaikUtil;
 import it.j4ops.util.NativeLibLoader;
+import java.io.File;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.apache.log4j.Logger;
  * @author fzanutto
  */
 public class IaikPKCS11Provider extends PKCS11Provider {
-    private static Logger logger = Logger.getLogger (IaikPKCS11Provider.class); 
+    private static final Logger logger = Logger.getLogger (IaikPKCS11Provider.class); 
     private KeyIDAndX509Cert selectKeyIDAndCertificate;    
 
     private Mechanism mechanismSignAlgId = null;
@@ -32,13 +33,23 @@ public class IaikPKCS11Provider extends PKCS11Provider {
     
 	static {
         try {
-            System.loadLibrary("pkcs11wrapper");
-        } catch (UnsatisfiedLinkError e) {
-            try {
-				NativeLibLoader.loadLib ("", "/libpkcs11wrapper");
-			} catch (Exception ex) {
-				logger.fatal(ex.getMessage(), ex);
-			}
+            int os = NativeLibLoader.getOS();
+            String library = "";
+            if (os == NativeLibLoader.OS_WINDOWS || 
+                os == NativeLibLoader.OS_WINDOWS_CE) {
+                library = "/pkcs11wrapper";
+            }
+            else {                
+                library = "/libpkcs11wrapper";
+            }
+            File file = NativeLibLoader.extractLib("", library);
+            if (file != null) {
+                String absolutePath = file.getAbsolutePath();
+                String filePath = absolutePath.substring(0,absolutePath.lastIndexOf(File.separator));                                
+                NativeLibLoader.addLibraryPath(filePath);
+            }
+        } catch (Exception ex) {
+            logger.fatal(ex.getMessage(), ex);
         }
 	}        
     
