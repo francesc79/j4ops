@@ -11,6 +11,8 @@
 package it.j4ops.gui.dialog;
 
 import it.j4ops.token.TokenInfo;
+import java.awt.Dialog;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -25,9 +27,9 @@ public class TokenDialog extends javax.swing.JDialog {
     
     
     /** Creates new form TokenDialog */
-    public TokenDialog(java.awt.Frame parent, boolean modal, List<TokenInfo> lstTokenInfos) {
-        super(parent, modal);
-        for(TokenInfo tokenInfo : lstTokenInfos) {
+    public TokenDialog(Window owner, Dialog.ModalityType modalityType, List<TokenInfo> lstTokenInfos) {
+        super (owner, modalityType);
+        for (TokenInfo tokenInfo : lstTokenInfos) {
             modelListToken.addElement(tokenInfo);
         }
         initComponents();
@@ -147,7 +149,7 @@ public class TokenDialog extends javax.swing.JDialog {
             @Override
             public void run() {
                 List<TokenInfo> lstTokenInfos = new ArrayList<TokenInfo>();
-                TokenDialog dialog = new TokenDialog(new javax.swing.JFrame(), true, lstTokenInfos);
+                TokenDialog dialog = new TokenDialog(new javax.swing.JFrame(), Dialog.ModalityType.APPLICATION_MODAL, lstTokenInfos);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

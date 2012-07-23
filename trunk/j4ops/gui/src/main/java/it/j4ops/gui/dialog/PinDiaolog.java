@@ -10,6 +10,9 @@
  */
 package it.j4ops.gui.dialog;
 
+import java.awt.Dialog;
+import java.awt.Window;
+
 /**
  *
  * @author zanutto
@@ -18,8 +21,8 @@ public class PinDiaolog extends javax.swing.JDialog {
     private String pin;
     
     /** Creates new form PinDiaolog */
-    public PinDiaolog(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public PinDiaolog(Window owner, Dialog.ModalityType modalityType) {
+        super(owner, modalityType);
         initComponents();
     }
 
@@ -113,14 +116,16 @@ public class PinDiaolog extends javax.swing.JDialog {
     }//GEN-LAST:event_jbutCancelActionPerformed
 
     private void jbutOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbutOkActionPerformed
-        if ((pin = jedtPin.getText()) != null) {
+        
+
+        if ((pin = new String (jedtPin.getPassword())) != null) {
             this.dispose();
         }
     }//GEN-LAST:event_jbutOkActionPerformed
 
     private void jedtPinKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jedtPinKeyReleased
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            if ((pin = jedtPin.getText()) != null) {
+            if ((pin = new String (jedtPin.getPassword())) != null) {
                 this.dispose();
             }        
         }
@@ -157,7 +162,7 @@ public class PinDiaolog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                PinDiaolog dialog = new PinDiaolog(new javax.swing.JFrame(), true);
+                PinDiaolog dialog = new PinDiaolog(new javax.swing.JFrame(), Dialog.ModalityType.APPLICATION_MODAL);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

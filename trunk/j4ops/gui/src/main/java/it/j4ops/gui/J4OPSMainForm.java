@@ -55,14 +55,13 @@ public class J4OPSMainForm extends javax.swing.JFrame {
     private TokenInfoTableModel tableModelTokens = new TokenInfoTableModel ();
     private VerifyTableModel tableModelVerify = new VerifyTableModel ();
     
-    private static final int TAB_SIGN = 0;
-    private static final int TAB_MULTI_SIGN = 1;
-    private static final int TAB_VERIFY = 2;
-    private static final int TAB_TRUST_CERTS = 3;
-    private static final int TAB_TOKENS = 4;
+    public static final int TAB_SIGN = 0;
+    public static final int TAB_MULTI_SIGN = 1;
+    public static final int TAB_VERIFY = 2;
+    public static final int TAB_TRUST_CERTS = 3;
+    public static final int TAB_TOKENS = 4;
 
     
-    /** Creates new form J4OPSMainForm */
     public J4OPSMainForm() throws Exception {
         
         // add sign type

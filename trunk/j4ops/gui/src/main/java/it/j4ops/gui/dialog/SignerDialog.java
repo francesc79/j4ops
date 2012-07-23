@@ -12,6 +12,8 @@ package it.j4ops.gui.dialog;
 
 import it.j4ops.util.DNParser;
 import it.j4ops.verify.bean.SignerInfo;
+import java.awt.Dialog;
+import java.awt.Window;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +29,8 @@ public class SignerDialog extends javax.swing.JDialog {
     private SignerInfo selectedSignerInfo;
 
     /** Creates new form SignerDialog */
-    public SignerDialog(java.awt.Frame parent, boolean modal, final List<SignerInfo> lstSigners) {
-        super(parent, modal);
+    public SignerDialog(Window owner, Dialog.ModalityType modalityType, final List<SignerInfo> lstSigners) {
+        super(owner, modalityType);
         this.lstSigners = lstSigners;       
         initComponents();
         signerInfoTableModel.removeAll();
@@ -148,7 +150,7 @@ public class SignerDialog extends javax.swing.JDialog {
             @Override
             public void run() {
                 List<SignerInfo> lstSigners = new ArrayList<SignerInfo>();
-                SignerDialog dialog = new SignerDialog(new javax.swing.JFrame(), true, lstSigners);
+                SignerDialog dialog = new SignerDialog(new javax.swing.JFrame(), Dialog.ModalityType.APPLICATION_MODAL, lstSigners);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override
