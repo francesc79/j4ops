@@ -47,7 +47,8 @@ public abstract class BaseVerify {
         defaultProp.setProperty(SecurityProvider.getLiteral(), BouncyCastleProvider.PROVIDER_NAME);  
         defaultProp.setProperty(FileKeyStoreTrustedRootCerts.getLiteral(), "certs.ks");   
         defaultProp.setProperty(PassKeyStoreTrustedRootCerts.getLiteral(), "j4ops");       
-        defaultProp.setProperty(VerifyCRL.getLiteral(), "false");        
+        defaultProp.setProperty(VerifyCRL.getLiteral(), "true");   
+        defaultProp.setProperty(VerifyCertificate.getLiteral(), "true");            
         return defaultProp;
     }
     

@@ -5,14 +5,13 @@
 package it.j4ops.verify;
 
 
-
 import com.itextpdf.text.pdf.*;
+import static it.j4ops.PropertyConstants.VerifyCertificate;
 import it.j4ops.SignType;
 import it.j4ops.util.DNParser;
 import it.j4ops.verify.bean.SignerInfo;
 import it.j4ops.verify.bean.VerifyInfo;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -82,7 +81,9 @@ public class PdfVerify extends BaseVerify {
                 verifyInfo.addSignerInfo(signerInfo);
             
                 // validate certificate
-                validateCertificate(signerInfo);                
+                if (Boolean.valueOf(getProperty(VerifyCertificate.getLiteral()))) {
+                    validateCertificate(signerInfo);
+                }               
                 
                 logger.info ("Verified!");  
                 logger.info (String.format("SignType:%s", signerInfo.getSignType()));                  
