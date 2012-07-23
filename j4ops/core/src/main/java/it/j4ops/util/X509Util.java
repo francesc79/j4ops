@@ -5,10 +5,7 @@
 package it.j4ops.util;
 
 import iaik.pkcs.pkcs11.objects.X509PublicKeyCertificate;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.*;
@@ -99,9 +96,14 @@ public class X509Util {
         KeyStore ks = KeyStore.getInstance(keyStoreType);
         InputStream is = null;
         try {
-            is = X509Util.class.getClassLoader().getResourceAsStream (keyFile);
-            if (is == null) {             
+            if (new File (keyFile).exists()) {
                 is = new FileInputStream(keyFile);
+            }
+            else {
+                is = X509Util.class.getClassLoader().getResourceAsStream (keyFile);
+            }
+            if (is == null) {             
+                throw new Exception ("resource " + keyFile + " not found");
             }
             ks.load (is, keyPass.toCharArray());
             

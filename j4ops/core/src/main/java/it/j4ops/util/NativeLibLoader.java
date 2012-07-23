@@ -4,20 +4,22 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashSet;
 import org.apache.log4j.Logger;
 
 public class NativeLibLoader {
 	private static Logger logger = Logger.getLogger(NativeLibLoader.class);
-	private static final int OS_UNSUPPORTED = -1;
-	private static final int OS_LINUX = 1;
-	private static final int OS_WINDOWS = 2;
-	private static final int OS_WINDOWS_CE = 3;
-	private static final int OS_MAC_OS_X = 4;
+	public static final int OS_UNSUPPORTED = -1;
+	public static final int OS_LINUX = 1;
+	public static final int OS_WINDOWS = 2;
+	public static final int OS_WINDOWS_CE = 3;
+	public static final int OS_MAC_OS_X = 4;
 	private static HashSet lstLibraryLoaded = new HashSet ();
 	
 	
-	private static int getOS() {
+	public static int getOS() {
 		int os = 0;
 		String sysName = System.getProperty("os.name");
 		if (sysName == null) {
@@ -67,16 +69,41 @@ public class NativeLibLoader {
 		}
 	}
 	
-	
-	public static void loadLib (String path, final String name) throws Exception {
+    public static void setLibraryPath(String path) throws Exception {
+        System.setProperty("java.library.path", path);
+
+        //set sys_paths to null
+        final Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
+        sysPathsField.setAccessible(true);
+        sysPathsField.set(null, null);
+    }    
+    
+    public static void addLibraryPath(String pathToAdd) throws Exception{
+        final Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
+        usrPathsField.setAccessible(true);
+
+        //get array of paths
+        final String[] paths = (String[])usrPathsField.get(null);
+
+        //check if the path to add is already present
+        for (String path : paths) {
+            if (path.equals (pathToAdd)) {
+                return;
+            }
+        }
+
+        //add the new path
+        final String[] newPaths = Arrays.copyOf(paths, paths.length + 1);
+        newPaths[newPaths.length-1] = pathToAdd;
+        usrPathsField.set(null, newPaths);       
+    }   
+    
+    public static File extractLib (String path, final String name) throws Exception {
 		InputStream in = null;
 		String fileName = name;
+        File fileOut = null;
 			
 		try {
-			if (lstLibraryLoaded.contains(name)) {
-				return;
-			}
-			
 			String sysName = System.getProperty("os.name");
 			String sysArch = System.getProperty("os.arch");
 			if (sysArch != null) {
@@ -124,8 +151,7 @@ public class NativeLibLoader {
 				throw new Exception ("Resource " + fileName + " not found");
 			}
 
-			File fileOut = new File(System.getProperty("java.io.tmpdir")
-					+ System.getProperty("file.separator") + path + fileName);
+			fileOut = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + path + fileName);
 			if (fileOut.exists()) {
 				fileOut.delete();
 			}
@@ -133,14 +159,6 @@ public class NativeLibLoader {
 			logger.info("write lib into: " + fileOut.getAbsolutePath());
 			copy2File (in, fileOut);			
 
-			in.close();
-			in = null;		
-
-			System.load (fileOut.toString());
-
-			logger.info("Library " + fileOut.getAbsolutePath() + " loaded successful");	
-
-			lstLibraryLoaded.add(name);
 		} catch (Exception e) {
 			logger.fatal(e.toString(), e);	
 			throw new Exception("Error on loading library " + name, e);
@@ -154,5 +172,27 @@ public class NativeLibLoader {
 			}
 			catch (Exception ex) {}		
 		}
+        
+        return fileOut;        
+    } 
+	
+	public static void loadLib (String path, final String name) throws Exception {
+			
+		try {
+			if (lstLibraryLoaded.contains(name)) {
+				return;
+			}
+			
+			File fileOut = extractLib (path, name);		            
+			System.load (fileOut.toString());
+
+			logger.info("Library " + fileOut.getAbsolutePath() + " loaded successful");	
+
+			lstLibraryLoaded.add(name);
+		} catch (Exception e) {
+			logger.fatal(e.toString(), e);	
+			throw new Exception("Error on loading library " + name, e);
+		}
+
 	}
 }

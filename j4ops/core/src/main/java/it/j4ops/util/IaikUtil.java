@@ -78,16 +78,14 @@ public class IaikUtil {
         assert null != token : "token not valid";        
         
         logger.info("opening session");
-        Session session =
-            token.openSession(Token.SessionType.SERIAL_SESSION, rwSession, null, null);
-
+        Session session = token.openSession (Token.SessionType.SERIAL_SESSION, rwSession, null, null);
         TokenInfo tokenInfo = token.getTokenInfo();
         if (tokenInfo.isLoginRequired()) {
             if (tokenInfo.isProtectedAuthenticationPath()) {
                 logger.info("Please enter the user-PIN at the PIN-pad of your reader.");
-                session.login(Session.UserType.USER, null); // the token prompts the PIN by other means; e.g. PIN-pad
+                session.login (Session.UserType.USER, null); // the token prompts the PIN by other means; e.g. PIN-pad
             } else {
-                session.login(Session.UserType.USER, PIN.toCharArray());
+                session.login (Session.UserType.USER, PIN.toCharArray());
             }
         }
 
