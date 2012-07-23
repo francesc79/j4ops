@@ -4,8 +4,7 @@
  */
 package it.j4ops.verify;
 
-import static it.j4ops.PropertyConstants.FileKeyStoreTrustedRootCerts;
-import static it.j4ops.PropertyConstants.PassKeyStoreTrustedRootCerts;
+import static it.j4ops.PropertyConstants.*;
 import it.j4ops.SignType;
 import it.j4ops.util.DNParser;
 import it.j4ops.verify.bean.SignerInfo;
@@ -212,7 +211,9 @@ public class XmlVerify extends BaseVerify {
                     verifyInfo.addSignerInfo(signerInfo);                    
                                         
                     // validate certificate
-                    validateCertificate(signerInfo);                    
+                    if (Boolean.valueOf(getProperty(VerifyCertificate.getLiteral()))) {
+                        validateCertificate(signerInfo);
+                    }                   
                     
                     logger.info ("Verified!");         
                     logger.info (String.format("SignType:%s", signerInfo.getSignType()));                      

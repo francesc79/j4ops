@@ -4,6 +4,7 @@
  */
 package it.j4ops.verify;
 
+import static it.j4ops.PropertyConstants.VerifyCertificate;
 import it.j4ops.SignType;
 import it.j4ops.util.DERUtil;
 import it.j4ops.util.DNParser;
@@ -100,7 +101,9 @@ public class CmsVerify extends BaseVerify {
                 }
                 
                 // validate certificate
-                validateCertificate(signerInfo);
+                if (Boolean.valueOf(getProperty(VerifyCertificate.getLiteral()))) {
+                    validateCertificate(signerInfo);
+                }
                 
                 logger.info ("Verified!");   
                 logger.info (String.format("Level:%d", level));
