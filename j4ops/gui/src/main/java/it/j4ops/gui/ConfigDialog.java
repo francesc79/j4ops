@@ -37,11 +37,10 @@ public class ConfigDialog extends javax.swing.JDialog {
         return properties.getProperty(key);
     }
     
-    private Properties getDefault () {
+    public static Properties getDefault () {
         Properties prop = new Properties ();
         prop.setProperty(FileConfigPKCS11Tokens, "tokens.xml");   
-        prop.setProperty(FilePKCS12KeyStore, "j4ops.p12");
-        
+        prop.setProperty(FilePKCS12KeyStore, "j4ops.p12");        
         prop.setProperty(SecurityProvider.getLiteral(), "BC");             
         prop.setProperty(DigestAlgName.getLiteral(), "SHA256");
         prop.setProperty(EncryptionAlgName.getLiteral(), "RSA");
@@ -50,7 +49,8 @@ public class ConfigDialog extends javax.swing.JDialog {
         prop.setProperty(TSAURL.getLiteral(), "http://timestamping.edelweb.fr/service/tsp"); 
         prop.setProperty(TSAUser.getLiteral(), ""); 
         prop.setProperty(TSAPassword.getLiteral(), ""); 
-        prop.setProperty(VerifyCRL.getLiteral(), "false");
+        prop.setProperty(VerifyCRL.getLiteral(), "true");
+        prop.setProperty(VerifyCertificate.getLiteral(), "true");        
         prop.setProperty(FileKeyStoreTrustedRootCerts.getLiteral(), "certs.ks");         
         prop.setProperty(PassKeyStoreTrustedRootCerts.getLiteral(), "j4ops");         
 
@@ -92,7 +92,8 @@ public class ConfigDialog extends javax.swing.JDialog {
 
         jedtFileKeyStoreTrustedRootCerts.setText(properties.getProperty(FileKeyStoreTrustedRootCerts.getLiteral()));
         jedtPassKeyStoreTrustedRootCerts.setText(properties.getProperty(PassKeyStoreTrustedRootCerts.getLiteral()));                
-        jcmbVerifyCRL.setSelectedItem(properties.getProperty(VerifyCRL.getLiteral()));        
+        jcmbVerifyCRL.setSelectedItem(properties.getProperty(VerifyCRL.getLiteral()));   
+        jcmbVerifyCertificate.setSelectedItem(properties.getProperty(VerifyCertificate.getLiteral()));         
         jcmbDigestAlgName.setSelectedItem(properties.getProperty(DigestAlgName.getLiteral()));    
         jcmbEncryptionAlgName.setSelectedItem(properties.getProperty(EncryptionAlgName.getLiteral()));
         jcmbEnvelopeEncode.setSelectedItem(properties.getProperty(EnvelopeEncode.getLiteral()));        
@@ -131,6 +132,8 @@ public class ConfigDialog extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         jedtFileKeyStoreTrustedRootCerts = new javax.swing.JTextField();
         jedtPassKeyStoreTrustedRootCerts = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jcmbVerifyCertificate = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Config");
@@ -179,6 +182,10 @@ public class ConfigDialog extends javax.swing.JDialog {
 
         jLabel12.setText("PassKeyStoreTrustedRootCerts:");
 
+        jLabel9.setText("VerifyCertificate:");
+
+        jcmbVerifyCertificate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "true", "false" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,7 +205,8 @@ public class ConfigDialog extends javax.swing.JDialog {
                             .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -210,9 +218,6 @@ public class ConfigDialog extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jcmbEnvelopeEncode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(278, 278, 278))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jcmbVerifyCRL, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(278, 278, 278))
                             .addComponent(jedtPKCS11Tokens, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jedtPKCS12KeyStore)
                             .addComponent(jedtFileKeyStoreTrustedRootCerts)
@@ -222,7 +227,12 @@ public class ConfigDialog extends javax.swing.JDialog {
                                     .addComponent(jedtTSAPassword)
                                     .addComponent(jedtTSAUser)
                                     .addComponent(jedtPassKeyStoreTrustedRootCerts))
-                                .addGap(171, 171, 171))))
+                                .addGap(171, 171, 171))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jcmbVerifyCertificate, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcmbVerifyCRL, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(278, 278, 278))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(544, 544, 544)
                         .addComponent(jbutOk, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,6 +284,10 @@ public class ConfigDialog extends javax.swing.JDialog {
                     .addComponent(jcmbEnvelopeEncode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jcmbVerifyCertificate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jcmbVerifyCRL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -302,6 +316,7 @@ public class ConfigDialog extends javax.swing.JDialog {
                 properties.setProperty(FileKeyStoreTrustedRootCerts.getLiteral(), jedtFileKeyStoreTrustedRootCerts.getText());
                 properties.setProperty(PassKeyStoreTrustedRootCerts.getLiteral(), jedtPassKeyStoreTrustedRootCerts.getText());                
                 properties.setProperty(VerifyCRL.getLiteral(), (String)jcmbVerifyCRL.getSelectedItem());
+                properties.setProperty(VerifyCertificate.getLiteral(), (String)jcmbVerifyCertificate.getSelectedItem());                
                 properties.setProperty(DigestAlgName.getLiteral(), (String)jcmbDigestAlgName.getSelectedItem());                
                 properties.setProperty(EncryptionAlgName.getLiteral(), (String)jcmbEncryptionAlgName.getSelectedItem());                 
                 properties.setProperty(EnvelopeEncode.getLiteral(), (String)jcmbEnvelopeEncode.getSelectedItem());                 
@@ -390,12 +405,14 @@ public class ConfigDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JButton jbutCancel;
     private javax.swing.JButton jbutOk;
     private javax.swing.JComboBox jcmbDigestAlgName;
     private javax.swing.JComboBox jcmbEncryptionAlgName;
     private javax.swing.JComboBox jcmbEnvelopeEncode;
     private javax.swing.JComboBox jcmbVerifyCRL;
+    private javax.swing.JComboBox jcmbVerifyCertificate;
     private javax.swing.JTextField jedtFileKeyStoreTrustedRootCerts;
     private javax.swing.JTextField jedtPKCS11Tokens;
     private javax.swing.JTextField jedtPKCS12KeyStore;

@@ -14,7 +14,9 @@ import it.j4ops.sign.provider.KeyIDAndX509Cert;
 import it.j4ops.token.TokenInfo;
 import it.j4ops.util.DNParser;
 import it.j4ops.verify.bean.SignerInfo;
+import java.awt.Dialog;
 import java.awt.Frame;
+import java.awt.Window;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.cert.CertificateFactory;
@@ -35,10 +37,10 @@ import org.bouncycastle.util.Store;
  * @author zanutto
  */
 public class GuiSignHandler implements SignHandler {
-    private Frame parent = null;
+    private Window owner = null;
     
-    public GuiSignHandler (Frame parent) {
-        this.parent = parent;
+    public GuiSignHandler (Window owner) {
+        this.owner = owner;
     }
     
     protected SignerInfo checkSignature (Store certs, SignerInformation signer, int level) throws Exception {
@@ -121,7 +123,7 @@ public class GuiSignHandler implements SignHandler {
             lstSigners.add(signerInfo);
             checkCounterSignatures(lstSigners, level, certs, si.getCounterSignatures());
         }
-        SignerDialog signerDialog = new SignerDialog (parent, true, lstSigners);
+        SignerDialog signerDialog = new SignerDialog (owner, Dialog.ModalityType.APPLICATION_MODAL, lstSigners);
         signerDialog.setVisible(true);
         if (signerDialog.getSelectedSignerInfo() == null) {
             throw new Exception ("user cancel");
@@ -131,7 +133,7 @@ public class GuiSignHandler implements SignHandler {
 
     @Override
     public String getPassword() throws Exception {
-        PinDiaolog pinDialog = new PinDiaolog (parent, true);
+        PinDiaolog pinDialog = new PinDiaolog (owner, Dialog.ModalityType.APPLICATION_MODAL);
         pinDialog.setVisible(true);
         String pin = pinDialog.getPin();
         if (pin == null || pin.equals("")) {
@@ -146,7 +148,7 @@ public class GuiSignHandler implements SignHandler {
             return lstTokenInfos.get(0);
         }
         else {        
-            TokenDialog tokenDialog = new TokenDialog (parent, true, lstTokenInfos);
+            TokenDialog tokenDialog = new TokenDialog (owner, Dialog.ModalityType.APPLICATION_MODAL, lstTokenInfos);
             tokenDialog.setVisible(true);
             TokenInfo tokenInfo = tokenDialog.getTokenSelected();
             if (tokenInfo == null) {
@@ -174,7 +176,7 @@ public class GuiSignHandler implements SignHandler {
             return tmp.get(0);
         }
         else {          
-            CertificateDialog certDialog = new CertificateDialog(parent, true, tmp);
+            CertificateDialog certDialog = new CertificateDialog(owner, Dialog.ModalityType.APPLICATION_MODAL, tmp);
             certDialog.setVisible(true);
             KeyIDAndX509Cert cert = certDialog.getX509CertSelected();
             if (cert == null) {

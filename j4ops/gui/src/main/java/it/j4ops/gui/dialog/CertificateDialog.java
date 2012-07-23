@@ -13,6 +13,8 @@ package it.j4ops.gui.dialog;
 import it.j4ops.sign.provider.KeyIDAndX509Cert;
 import it.j4ops.util.DNParser;
 import it.j4ops.util.X509Util;
+import java.awt.Dialog;
+import java.awt.Window;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,8 @@ public class CertificateDialog extends javax.swing.JDialog {
     private List<KeyIDAndX509Cert> lstKeyAndX509Cert;
     private KeyIDAndX509Cert x509CertSelected;
     
-    /** Creates new form CertificateDialog */
-    public CertificateDialog(java.awt.Frame parent, boolean modal, final List<KeyIDAndX509Cert> lstKeyAndX509Cert) {
-        super(parent, modal);
+    public CertificateDialog(Window owner, Dialog.ModalityType modalityType, final List<KeyIDAndX509Cert> lstKeyAndX509Cert) {
+        super(owner, modalityType);
         this.lstKeyAndX509Cert = lstKeyAndX509Cert;       
         initComponents();
         certificateTableModel.removeAll();
@@ -150,7 +151,7 @@ public class CertificateDialog extends javax.swing.JDialog {
             @Override
             public void run() {
                 List<KeyIDAndX509Cert> lstKeyAndX509Cert = new ArrayList<KeyIDAndX509Cert>();
-                CertificateDialog dialog = new CertificateDialog(new javax.swing.JFrame(), true, lstKeyAndX509Cert);
+                CertificateDialog dialog = new CertificateDialog(new javax.swing.JFrame(), Dialog.ModalityType.APPLICATION_MODAL, lstKeyAndX509Cert);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

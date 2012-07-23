@@ -39,6 +39,7 @@
                           <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel8" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel10" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel9" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -54,10 +55,6 @@
                               <Component id="jcmbEnvelopeEncode" max="32767" attributes="0"/>
                               <EmptySpace min="278" pref="278" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jcmbVerifyCRL" max="32767" attributes="0"/>
-                              <EmptySpace min="278" pref="278" max="-2" attributes="0"/>
-                          </Group>
                           <Component id="jedtPKCS11Tokens" alignment="1" max="32767" attributes="1"/>
                           <Component id="jedtPKCS12KeyStore" alignment="0" max="32767" attributes="1"/>
                           <Component id="jedtFileKeyStoreTrustedRootCerts" max="32767" attributes="0"/>
@@ -69,6 +66,13 @@
                                   <Component id="jedtPassKeyStoreTrustedRootCerts" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="171" pref="171" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jcmbVerifyCertificate" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jcmbVerifyCRL" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="278" pref="278" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -135,6 +139,11 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jcmbEnvelopeEncode" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jcmbVerifyCertificate" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -278,6 +287,21 @@
     <Component class="javax.swing.JTextField" name="jedtFileKeyStoreTrustedRootCerts">
     </Component>
     <Component class="javax.swing.JTextField" name="jedtPassKeyStoreTrustedRootCerts">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel9">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="VerifyCertificate:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jcmbVerifyCertificate">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="true"/>
+            <StringItem index="1" value="false"/>
+          </StringArray>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
