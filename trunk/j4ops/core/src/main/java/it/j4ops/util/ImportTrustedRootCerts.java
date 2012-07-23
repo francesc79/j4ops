@@ -4,7 +4,7 @@
  */
 package it.j4ops.util;
 
-import it.j4ops.util.X509Util;
+import static it.j4ops.PropertyConstants.VerifyCertificate;
 import it.j4ops.verify.CmsVerify;
 import it.j4ops.verify.bean.VerifyInfo;
 import java.io.*;
@@ -59,6 +59,7 @@ public class ImportTrustedRootCerts {
         
         logger.debug(String.format("verifing %s", nameArchive));
         Properties prop = new Properties ();      
+        prop.setProperty(VerifyCertificate.getLiteral(), "false");
         CmsVerify p7xVerify = new CmsVerify (prop);        
         try {
             fis = new FileInputStream (nameArchive);
@@ -163,7 +164,7 @@ public class ImportTrustedRootCerts {
         DOMConfigurator.configure("log4j.xml");
         String provider = "SUN";
         ImportTrustedRootCerts imp = new ImportTrustedRootCerts ("certs.ks", "j4ops", provider);
-        imp.parsingArchive(imp.loadArchive("./src/main/resources/LISTACER_20120209.zip.p7m"), provider);
+        imp.parsingArchive(imp.loadArchive("./src/main/resources/LISTACER_20120528.zip.p7m"), provider);
         imp.close();
     }    
 }
