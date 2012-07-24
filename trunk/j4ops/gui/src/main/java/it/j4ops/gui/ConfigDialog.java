@@ -12,7 +12,9 @@ package it.j4ops.gui;
 
 import static it.j4ops.PropertyConstants.*;
 import it.j4ops.SignType;
+import it.j4ops.sign.BaseSign;
 import java.io.*;
+import java.util.Map;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -38,22 +40,12 @@ public class ConfigDialog extends javax.swing.JDialog {
     }
     
     public static Properties getDefault () {
-        Properties prop = new Properties ();
-        prop.setProperty(FileConfigPKCS11Tokens, "tokens.xml");   
-        prop.setProperty(FilePKCS12KeyStore, "j4ops.p12");        
-        prop.setProperty(SecurityProvider.getLiteral(), "BC");             
-        prop.setProperty(DigestAlgName.getLiteral(), "SHA256");
-        prop.setProperty(EncryptionAlgName.getLiteral(), "RSA");
-        prop.setProperty(EnvelopeEncode.getLiteral(), "DER");        
-        prop.setProperty(EnvelopeSignType.getLiteral(), SignType.PAdES_BES.getLiteral());        
-        prop.setProperty(TSAURL.getLiteral(), "http://timestamping.edelweb.fr/service/tsp"); 
-        prop.setProperty(TSAUser.getLiteral(), ""); 
-        prop.setProperty(TSAPassword.getLiteral(), ""); 
-        prop.setProperty(VerifyCRL.getLiteral(), "true");
-        prop.setProperty(VerifyCertificate.getLiteral(), "true");        
+        Properties prop = new Properties ();        
+        for (Map.Entry<Object, Object> entry : BaseSign.getDefault().entrySet()) {
+            prop.setProperty((String)entry.getKey(), (String)entry.getValue());
+        }          
         prop.setProperty(FileKeyStoreTrustedRootCerts.getLiteral(), "certs.ks");         
         prop.setProperty(PassKeyStoreTrustedRootCerts.getLiteral(), "j4ops");         
-
         return prop;
     }
     
