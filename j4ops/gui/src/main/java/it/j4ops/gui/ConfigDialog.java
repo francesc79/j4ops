@@ -11,7 +11,6 @@
 package it.j4ops.gui;
 
 import static it.j4ops.PropertyConstants.*;
-import it.j4ops.SignType;
 import it.j4ops.sign.BaseSign;
 import java.io.*;
 import java.util.Map;
@@ -46,6 +45,8 @@ public class ConfigDialog extends javax.swing.JDialog {
         }          
         prop.setProperty(FileKeyStoreTrustedRootCerts.getLiteral(), "certs.ks");         
         prop.setProperty(PassKeyStoreTrustedRootCerts.getLiteral(), "j4ops");         
+        prop.setProperty(FileConfigPKCS11Tokens, "tokens.xml");    
+        prop.setProperty(FilePKCS12KeyStore, "j4ops.p12");
         return prop;
     }
     
