@@ -154,12 +154,12 @@ public class SunPKCS11Provider extends PKCS11Provider {
         Signature sig = Signature.getInstance(algorithm, sunPKCS11);
         sig.initSign(privateKey);
         
-        logger.info("data to sign:" + HexString.hexify(toEncrypt));
+        logger.info(String.format("data to sign(length:%d):%s", toEncrypt.length, HexString.hexify(toEncrypt)));
         
         sig.update(toEncrypt);        
         byte [] signature = sig.sign();
                 
-        logger.info("data signed:" + HexString.hexify(signature)); 
+        logger.info(String.format("data signed(length:%d):%s", signature.length, HexString.hexify(signature)));        
         
         return signature;
     }
