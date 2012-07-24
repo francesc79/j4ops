@@ -27,6 +27,7 @@ import it.j4ops.verify.XmlVerify;
 import it.j4ops.verify.bean.SignerInfo;
 import it.j4ops.verify.bean.VerifyInfo;
 import java.io.*;
+import java.net.URL;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -1665,7 +1666,10 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             public void run() {
              
                 try {
-                    DOMConfigurator.configure("log4j.xml");
+                    URL url = getClass().getResource("/log4j.xml");
+                    if (url != null) {
+                        DOMConfigurator.configure(url);        
+                    }
                     new J4OPSMainForm().setVisible(true);
                 }
                 catch (Exception ex) {
