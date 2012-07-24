@@ -36,13 +36,12 @@ public abstract class BaseSign implements Sign {
         this.signProvider = signProvider;
         this.signHandler = signHandler;
         
+        // updating properties
         properties = new Properties(getDefault());
-        Set set = prop.entrySet();
-        Iterator it = set.iterator();
-        while (it.hasNext()) {
-        Map.Entry entry = (Map.Entry) it.next();
+        for (Map.Entry<Object, Object> entry : prop.entrySet()) {
+            logger.debug (String.format("updating property key:%s value:%s", (String)entry.getKey(), (String)entry.getValue()));
             properties.setProperty((String)entry.getKey(), (String)entry.getValue());
-        }         
+        }        
 
         // check if add security provider
         if (BouncyCastleProvider.PROVIDER_NAME.equals(properties.getProperty(SecurityProvider.getLiteral())) && 
@@ -52,7 +51,7 @@ public abstract class BaseSign implements Sign {
         }
     }
     
-    private Properties getDefault () {
+    public static Properties getDefault () {
         Properties defaultProp = new Properties ();
         defaultProp.setProperty(SecurityProvider.getLiteral(), BouncyCastleProvider.PROVIDER_NAME);                 
         defaultProp.setProperty(DigestAlgName.getLiteral(), "SHA256");
@@ -62,9 +61,11 @@ public abstract class BaseSign implements Sign {
         defaultProp.setProperty(TSAURL.getLiteral(), "http://timestamping.edelweb.fr/service/tsp");
         defaultProp.setProperty(TSAUser.getLiteral(), ""); 
         defaultProp.setProperty(TSAPassword.getLiteral(), ""); 
-        defaultProp.setProperty(VerifyCRL.getLiteral(), "false");
+        defaultProp.setProperty(VerifyCRL.getLiteral(), "true");
+        defaultProp.setProperty(VerifyCertificate.getLiteral(), "true");  
         defaultProp.setProperty(FileKeyStoreTrustedRootCerts.getLiteral(), "certs.ks");   
-        defaultProp.setProperty(PassKeyStoreTrustedRootCerts.getLiteral(), "j4ops");            
+        defaultProp.setProperty(PassKeyStoreTrustedRootCerts.getLiteral(), "j4ops");    
+        
         return defaultProp;    
     }
 
