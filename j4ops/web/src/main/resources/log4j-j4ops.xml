@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c{1}:%L %m %n" />
+            <!--
+            ConversionPattern format specification
+            %d      inserts the date; you can specify the format (%d{yyyy-MM-dd HH:mm:ss,SSS})
+            %-5p    inserts the priority log level, 5 characters, left justified
+            %c{1}   inserts the name of the class
+            %L      inserts the line number
+            %m      inserts the user message
+            %n      inserts the separator (for example, a new line)
+            -->
+        </layout>
+    </appender>
+
+    <appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="INFO" />
+        <param name="MaxFileSize" value="512KB" />
+        <param name="MaxBackupIndex" value="10" />
+        <param name="File" value="${webapp.root}/WEB-INF/logs/j4ops.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %c{1}:%L %m %n" />
+        </layout>
+    </appender>
+
+    <!--sets the priority log level for org.springframework-->
+    <logger name="org.springframework">
+        <level value="info"/>
+    </logger>
+
+    <!--sets the priority log level for it.helloworld.controller-->
+    <logger name= "it.j4ops">
+        <level value="debug"/>
+    </logger>
+
+    <!--sets the default priority log level-->
+    <root>
+        <priority value="info"></priority>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="fileAppender"/>
+    </root>
+</log4j:configuration>

@@ -25,8 +25,13 @@
         </thead>
         <tbody>
             <c:if test="${not empty listDocument}">
-                <c:forEach var="${listDocument}" varStatus="status">
-
+                <c:forEach items="${listDocument}" var="${document}" varStatus="${status}">
+                    <tr>
+                        <td>${status.index}</td>
+                        <td>${document.name}</td>
+                        <td>${document.size}</td>
+                        <td>${document.lastModified}</td>
+                    </tr>
                 </c:forEach>
             </c:if>
         </tbody>
