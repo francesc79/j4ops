@@ -39,7 +39,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 
 /**
@@ -47,7 +48,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * @author zanutto
  */
 public class J4OPSMainForm extends javax.swing.JFrame {
-    private static Logger logger = Logger.getLogger(J4OPSMainForm.class);     
+    private static Logger logger = LoggerFactory.getLogger(J4OPSMainForm.class);
     private CertificateTableModel trustCertsTableModel = new CertificateTableModel();    
     private DefaultComboBoxModel modelSignProviders = new DefaultComboBoxModel();
     private DefaultComboBoxModel modelSignTypes = new DefaultComboBoxModel(); 
@@ -139,7 +140,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             jtabTokens.repaint();
         }
         catch (Exception ex) {
-            logger.fatal(ex.toString(), ex);
+            logger.error(ex.toString(), ex);
         }
     }
 
@@ -675,7 +676,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
     }//GEN-LAST:event_jcmbSignProviderActionPerformed
 
@@ -813,7 +814,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(J4OPSMainForm.this, "Sign Complited!");
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.toString());
         }
     }//GEN-LAST:event_jbutSignActionPerformed
@@ -951,7 +952,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(J4OPSMainForm.this, "Add Sign Complited!");
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.toString());
         }
     }//GEN-LAST:event_jbutAddSignActionPerformed
@@ -1007,7 +1008,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(J4OPSMainForm.this, "Counter Sign Complited!");
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.toString());
         }
     }//GEN-LAST:event_jbutCounterSignActionPerformed
@@ -1079,7 +1080,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             reloadTrustCerts ();
         }
         catch (Exception ex) {
-            logger.fatal(ex.toString(), ex);
+            logger.error(ex.toString(), ex);
         }
     }//GEN-LAST:event_jmitConfigActionPerformed
 
@@ -1096,7 +1097,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (IOException ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.getMessage());
         } 
           
@@ -1146,7 +1147,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (IOException ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.getMessage());
         } 
     }//GEN-LAST:event_jbutSignOutputActionPerformed
@@ -1199,7 +1200,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (IOException ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.getMessage());
         } 
     }//GEN-LAST:event_jbutVerifyInputActionPerformed
@@ -1258,7 +1259,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(J4OPSMainForm.this, "Verify Complited!");
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.toString());
         }
         finally {
@@ -1298,7 +1299,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (IOException ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.getMessage());
         }        
         
@@ -1322,7 +1323,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (IOException ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.getMessage());
         }
     }//GEN-LAST:event_jbutVerifyOutputActionPerformed
@@ -1340,7 +1341,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (IOException ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.getMessage());
         }                
     }//GEN-LAST:event_jbutMultiSignDirActionPerformed
@@ -1519,7 +1520,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(J4OPSMainForm.this, "Multi Sign Complited!");
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(J4OPSMainForm.this, ex.toString());
         }
     }//GEN-LAST:event_jbutMultiSignActionPerformed
@@ -1529,7 +1530,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             refreshTokens();
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
     }//GEN-LAST:event_jbutRefreshTokensActionPerformed
 
@@ -1563,7 +1564,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                 }
             }
             catch (Exception ex) {
-                logger.fatal(ex.getMessage(), ex);
+                logger.error(ex.getMessage(), ex);
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }             
         }
@@ -1592,7 +1593,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
             }
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }                
     }//GEN-LAST:event_jcmbSignModeActionPerformed
@@ -1626,7 +1627,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                 }
             }
             catch (Exception ex) {
-                logger.fatal(ex.getMessage(), ex);
+                logger.error(ex.getMessage(), ex);
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }             
         }
@@ -1673,7 +1674,7 @@ public class J4OPSMainForm extends javax.swing.JFrame {
                     new J4OPSMainForm().setVisible(true);
                 }
                 catch (Exception ex) {
-                    logger.fatal(ex.toString(), ex);
+                    logger.error(ex.toString(), ex);
                 }
             }
         });
