@@ -15,7 +15,9 @@ import it.j4ops.sign.BaseSign;
 import java.io.*;
 import java.util.Map;
 import java.util.Properties;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  *
@@ -27,7 +29,7 @@ public class ConfigDialog extends javax.swing.JDialog {
     public static final String FileConfigPKCS11Tokens = "PKCS11Tokens";
     public static final String FilePKCS12KeyStore = "PKCS12KeyStore";
     
-    private Logger logger = Logger.getLogger(this.getClass());      
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private Properties properties = new Properties (getDefault());
 
     public Properties getProperties() {
@@ -66,7 +68,7 @@ public class ConfigDialog extends javax.swing.JDialog {
             properties.load(is);
         }
         catch (FileNotFoundException ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
         finally {
             try {
@@ -328,7 +330,7 @@ public class ConfigDialog extends javax.swing.JDialog {
             }    
         }
         catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
         
         dispose();
