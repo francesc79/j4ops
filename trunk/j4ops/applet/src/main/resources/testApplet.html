@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Test Applet J4OPS</title>
+    </head>
+    <body>
+        <applet archive="j4ops-applet-1.0.0.jar,lib/activation-1.1.jar,lib/bcmail-jdk16-1.46.jar,lib/bcprov-jdk16-1.46.jar,lib/bctsp-jdk16-1.46.jar,lib/commons-codec-1.6.jar,lib/commons-httpclient-3.1.jar,lib/commons-lang-2.6.jar,lib/commons-logging-1.1.1.jar,lib/itextpdf-5.1.3.jar,lib/j4ops-core-1.0.0.jar,lib/j4ops-gui-1.0.0.jar,lib/junit-3.8.1.jar,lib/log4j-1.2.15.jar,lib/mail-1.4.4.jar,lib/serializer-2.7.1.jar,lib/xalan-2.7.1.jar,lib/xml-apis-1.3.04.jar,lib/xmlsec-1.5.0.jar" code="it.j4ops.gui.J4OPSApplet" width=600 height=550 >
+            <param name="Action" value="SIGN" />
+            <param name="DocumentURL" value="test.pdf" />
+            <param name="PostCertificateURL" value="file:///c:/prova.p7m"/>
+            <param name="PostDocumentURL" value="file:///c:/prova.p7m"/>
+
+            <param name="FileKeyStoreTrustedRootCerts" value="certs.ks"/>
+            <param name="PassKeyStoreTrustedRootCerts" value="j4ops"/>     
+            <param name="PKCS11Tokens" value="tokens.xml"/>   
+            <param name="EnvelopeSignType" value="CAdES_BES"/>
+            <param name="EnvelopeEncode" value="B64"/>
+            <param name="EncryptionAlgName" value="RSA"/> 
+            <param name="DigestAlgName" value="SHA256"/>
+            <param name="VerifyCRL" value="true"/>
+            <param name="VerifyCertificate" value="true"/>
+
+        </applet>
+    </body>
+</html>
