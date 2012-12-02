@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.bouncycastle.asn1.*;
 import org.bouncycastle.asn1.cms.Attribute;
 import org.bouncycastle.asn1.cms.AttributeTable;
@@ -39,7 +40,7 @@ import org.bouncycastle.util.Store;
  * @author fzanutto
  */
 public class ExternalCMSSignedDataGenerator extends CMSSignedDataGenerator {
-    private static Logger logger = Logger.getLogger(ExternalCMSSignedDataGenerator.class);     
+    private static Logger logger = LoggerFactory.getLogger(ExternalCMSSignedDataGenerator.class);
     private CMSTypedData content = null;
     
     private ExternalCMSSignedDataGenerator () {
@@ -72,7 +73,7 @@ public class ExternalCMSSignedDataGenerator extends CMSSignedDataGenerator {
             addCRLs(storeCRLs);
         }
         catch (CMSException ex) {
-            //logger.fatal (ex.getMessage(), ex);
+            //logger.error (ex.getMessage(), ex);
             content = new CMSProcessableByteArray(contentBytes);          
         }
     }
@@ -95,16 +96,16 @@ public class ExternalCMSSignedDataGenerator extends CMSSignedDataGenerator {
     
     public Store getCertificates() throws IOException {
         ArrayList<X509CertificateHolder> lstCerts = new ArrayList<X509CertificateHolder> ();
-        for (int i = 0; i < certs.size(); i ++) {
-            lstCerts.add(new X509CertificateHolder (((X509CertificateStructure)certs.get(i)).getEncoded()));
+        for (Object cert : certs) {
+            lstCerts.add(new X509CertificateHolder(((X509CertificateStructure) cert).getEncoded()));
         }
         return new CollectionStore(lstCerts);
     }
     
     public Store getCRLs() throws IOException {
         ArrayList<X509CertificateHolder> lstCRLs = new ArrayList<X509CertificateHolder> ();
-        for (int i = 0; i < crls.size(); i ++) {
-            lstCRLs.add(new X509CertificateHolder (((X509CertificateStructure)crls.get(i)).getEncoded()));
+        for (Object crl : crls) {
+            lstCRLs.add(new X509CertificateHolder(((X509CertificateStructure) crl).getEncoded()));
         }
         return new CollectionStore(lstCRLs);        
     }    

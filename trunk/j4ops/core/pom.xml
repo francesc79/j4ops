@@ -24,7 +24,26 @@
         </developer>		
     </developers>
 
+    <scm>
+        <connection>scm:svn:https://j4ops.googlecode.com/svn/trunk/core</connection>
+        <developerConnection>scm:svn:https://j4ops.googlecode.com/svn/trunk/core</developerConnection>
+    </scm>
+
     <dependencies>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -130,7 +149,7 @@
                 <filtering>false</filtering>
                 <includes>
                     <include>libpkcs11wrapper.so</include>
-                    <include>libpkcs11wrapper.dll</include>    
+                    <include>pkcs11wrapper.dll</include>    
                     <include>*.ks</include> 
                     <include>*.p12</include>  
                     <include>*.xml</include>                    
@@ -190,8 +209,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.2</version>         		
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>                    
                     <archive>
                         <manifest>
                             <mainClass>it.j4ops.P7xSign</mainClass>         		

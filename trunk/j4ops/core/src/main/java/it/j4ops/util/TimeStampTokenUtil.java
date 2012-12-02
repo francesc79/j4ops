@@ -17,7 +17,8 @@ import java.util.*;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.X509Extension;
@@ -32,7 +33,7 @@ import org.bouncycastle.util.encoders.Base64;
  * @author fzanutto
  */
 public class TimeStampTokenUtil {
-    private static Logger logger = Logger.getLogger(X509Util.class);    
+    private static Logger logger = LoggerFactory.getLogger(X509Util.class);
 
     public static X509Certificate validateTimeStampToken (TimeStampToken timeStampToken, Set<X509Certificate> trustedCerts, final String securityProvider) throws Exception {
 
@@ -57,6 +58,9 @@ public class TimeStampTokenUtil {
             }
             logger.debug ("Certificate subject dn " + x509Cert.getSubjectDN());
             logger.debug ("Certificate serial " + x509Cert.getSerialNumber());
+        }
+        if (x509Certificate == null) {
+            throw new Exception("certificate not found");
         }
 
         logger.debug ("validateCertificate:" + x509Certificate.getSubjectDN());
@@ -96,7 +100,7 @@ public class TimeStampTokenUtil {
                     }
                 }
                 catch (Exception ex) {
-                    logger.fatal(ex.toString(), ex);
+                    logger.error(ex.toString(), ex);
                     throw new CertPathValidatorException (ex.toString(), ex);
                 }
             }        
@@ -113,8 +117,8 @@ public class TimeStampTokenUtil {
     public static TimeStampToken getTimeStampToken(URL url, String user, String password, 
                                                    byte[] fingerPrint, String digestAlgOID, BigInteger nonce, String securityProvider) throws 
                                                    IOException, TSPException, NoSuchAlgorithmException, 
-                                                   NoSuchProviderException, CMSException, CertStoreException, 
-                                                   TSPValidationException, CertificateExpiredException, CertificateNotYetValidException {
+                                                   NoSuchProviderException, CMSException, CertStoreException,
+                                                   CertificateExpiredException, CertificateNotYetValidException {
 
         logger.info(String.format("getTimeStampToken (%s, %s, %s, %s, %s, %d, %s)", url.toString(), user, password, 
                                                                                 HexString.hexify(fingerPrint), digestAlgOID, nonce, securityProvider));

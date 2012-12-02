@@ -11,5 +11,5 @@ package it.j4ops;
 public enum XmlSignMode {
     Enveloped,
     Enveloping,
-    Detached;    
+    Detached
 }

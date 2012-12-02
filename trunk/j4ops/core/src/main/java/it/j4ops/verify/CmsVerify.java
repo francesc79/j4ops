@@ -19,7 +19,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.bouncycastle.asn1.ASN1UTCTime;
 import org.bouncycastle.asn1.cms.Attribute;
@@ -37,7 +38,7 @@ import org.bouncycastle.util.Store;
  * @author fzanutto
  */
 public class CmsVerify extends BaseVerify {
-    private Logger logger = Logger.getLogger(this.getClass());       
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     public CmsVerify (Properties properties) {
         super(properties);
@@ -55,7 +56,7 @@ public class CmsVerify extends BaseVerify {
                 new BcRSAContentVerifierProviderBuilder(new DefaultDigestAlgorithmIdentifierFinder()).build(certHolder), 
                 new BcDigestCalculatorProvider());
 
-            if (signer.verify(verifier) == true) {
+            if (signer.verify(verifier)) {
                 Attribute attrSigningTime = signer.getSignedAttributes().get(CMSAttributes.signingTime);
                 Enumeration enumer = attrSigningTime.getAttrValues().getObjects();
                 ASN1UTCTime dateSign = (ASN1UTCTime)enumer.nextElement();                
@@ -137,7 +138,7 @@ public class CmsVerify extends BaseVerify {
             content = DERUtil.streamToByteArray(envelopeIS);
             
             // check if convert from b64
-            if (Base64.isBase64(content) == true) {
+            if (Base64.isBase64(content)) {
                 content = Base64.decodeBase64(content);
             }
 

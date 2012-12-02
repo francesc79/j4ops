@@ -13,7 +13,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,7 +28,7 @@ import org.xml.sax.SAXException;
  * @author fzanutto
  */
 public class TokenRecognize {
-    private static Logger logger = Logger.getLogger(TokenRecognize.class); 
+    private static Logger logger = LoggerFactory.getLogger(TokenRecognize.class);
     
     
     private static class Token {
@@ -150,7 +151,7 @@ public class TokenRecognize {
         
         for (Token token : lstTokens) {
             logger.debug("recognizing token match atr with:" + token.getAtrMask());
-            if (cardInfo.getAtr().matches(token.getAtrMask().toUpperCase()) == true) {
+            if (cardInfo.getAtr().matches(token.getAtrMask().toUpperCase())) {
                 logger.debug("recognized token use driver:" + token.getDriver());
                 cardInfo.setDriver(token.getDriver());
                 cardInfo.setDriverDescription(token.getDescription());

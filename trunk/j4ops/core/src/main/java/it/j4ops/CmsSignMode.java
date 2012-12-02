@@ -10,5 +10,5 @@ package it.j4ops;
  */
 public enum CmsSignMode {
     Attached,
-    Detached;
+    Detached
 }

@@ -82,22 +82,24 @@ public class HexString
    * @return HexString
    */
   public static String hexify(byte[] data, boolean space) {
-    if (data == null)
+    if (data == null) {
       return "null";
+    }
+
     StringBuilder out = new StringBuilder((data.length * 2) + 10);
     int n = 0;
-    for (int i = 0; i < data.length; i++) {
-      if (space == true) {
-        if (n > 0)
-          out.append(' ');
+    for (byte aData : data) {
+      if (space) {
+          if (n > 0)
+              out.append(' ');
       }
-      out.append(hexChars[(data[i] >> 4) & 0x0f]);
-      out.append(hexChars[data[i] & 0x0f]);
+      out.append(hexChars[(aData >> 4) & 0x0f]);
+      out.append(hexChars[aData & 0x0f]);
       if (++n == 16) {
-        if (space == true) {
-          out.append('\n');
-        }
-        n = 0;
+          if (space) {
+              out.append('\n');
+          }
+          n = 0;
       }
     }
     return out.toString();
@@ -151,7 +153,7 @@ public class HexString
     int n = 0;
     for (int i = 0; i < data.length; i++)
     {
-      if (space == true)
+      if (space)
       {
         if (n > 0)
           out.append(' ');
@@ -172,7 +174,7 @@ public class HexString
 
       if (++n == 16)
       {
-        if (space == true)
+        if (space)
         {
           out.append('\n');
         }

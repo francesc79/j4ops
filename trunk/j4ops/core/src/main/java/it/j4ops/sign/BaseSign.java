@@ -15,7 +15,8 @@ import it.j4ops.util.X509Util;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.tsp.TimeStampToken;
 
@@ -24,7 +25,7 @@ import org.bouncycastle.tsp.TimeStampToken;
  * @author fzanutto
  */
 public abstract class BaseSign implements Sign {
-    private Logger logger = Logger.getLogger(this.getClass()); 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     private SignHandler signHandler;    
     private SignProvider signProvider;
@@ -121,7 +122,7 @@ public abstract class BaseSign implements Sign {
     public X509Certificate init () throws Exception {
         
         // check if alredy initialized
-        if (initialized == true) {
+        if (initialized) {
             throw new Exception ("already initialized");
         }
 

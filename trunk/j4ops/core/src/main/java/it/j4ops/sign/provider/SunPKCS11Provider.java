@@ -12,7 +12,8 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.security.pkcs11.SunPKCS11;
 
 /**
@@ -21,7 +22,7 @@ import sun.security.pkcs11.SunPKCS11;
  */
 public class SunPKCS11Provider extends PKCS11Provider {  
     
-    private Logger logger = Logger.getLogger(this.getClass());    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private KeyStore caKs;    
     private boolean flagInit = false; 
     private String algorithm = null;
@@ -143,7 +144,7 @@ public class SunPKCS11Provider extends PKCS11Provider {
     public byte[] sign(byte[] toEncrypt) throws Exception {
         
         // check if init provider
-        if (flagInit == false) {
+        if (!flagInit) {
             throw new Exception ("Provider not initialized");
         }
         
