@@ -35,17 +35,14 @@ public class DERUtil {
 
     public static DERObject readDERObject(byte[] ab) throws IOException{
         ASN1InputStream in = getASN1InputStream(ab);
-        DERObject obj = in.readObject();
-        return obj;
+        return in.readObject();
     }  
 
     private static ASN1InputStream getASN1InputStream(byte[] ab) {
         ByteArrayInputStream bais = new ByteArrayInputStream(ab);
-        ASN1InputStream asn1is = new ASN1InputStream(bais);
-        return asn1is;
+        return new ASN1InputStream(bais);
     }   
-    
-    
+
     public static byte[] streamToByteArray(InputStream stream) throws IOException {
         if (stream == null) {
             return null;

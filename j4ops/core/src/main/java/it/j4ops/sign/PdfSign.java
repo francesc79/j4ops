@@ -26,7 +26,8 @@ import java.net.URL;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -40,7 +41,7 @@ import org.bouncycastle.util.CollectionStore;
  * @author fzanutto
  */
 public class PdfSign extends BaseSign {
-    private Logger logger = Logger.getLogger(this.getClass());     
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final int CONTENTS_SIZE = 0x2830;
     
     public PdfSign (SignProvider signProvider, SignHandler signHandler, Properties properties) {
@@ -49,7 +50,7 @@ public class PdfSign extends BaseSign {
     
     public void sign (Date signingTime, InputStream srcIS, String ownerPassword, OutputStream destOS) throws Exception {        
         // check if need inizialization
-        if (isInitialized() == false) {
+        if (!isInitialized()) {
             throw new Exception ("need initialization");
         }            
 
@@ -121,7 +122,7 @@ public class PdfSign extends BaseSign {
         // dic.put(new PdfName("Reference"), types);
 
         HashMap exc = new HashMap();
-        exc.put(PdfName.CONTENTS, new Integer(CONTENTS_SIZE + 2));
+        exc.put(PdfName.CONTENTS, CONTENTS_SIZE + 2);
         sap.preClose(exc);
 
         // create external CMS signed data
@@ -164,7 +165,7 @@ public class PdfSign extends BaseSign {
       
         // add certificates if not exists
         X509CertificateHolder certHolder = new X509CertificateHolder(x509Cert.getEncoded());
-        if (externalCMSSignedDataGenerator.getCertificates().getMatches(null).contains(certHolder) == false) {
+        if (!externalCMSSignedDataGenerator.getCertificates().getMatches(null).contains(certHolder)) {
             List <X509CertificateHolder> lstCertsHolder = new ArrayList<X509CertificateHolder>();
             for (X509Certificate cert : x509CertChain) { 
                 lstCertsHolder.add(new X509CertificateHolder(cert.getEncoded()));

@@ -7,10 +7,11 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NativeLibLoader {
-	private static Logger logger = Logger.getLogger(NativeLibLoader.class);
+	private static Logger logger = LoggerFactory.getLogger(NativeLibLoader.class);
 	public static final int OS_UNSUPPORTED = -1;
 	public static final int OS_LINUX = 1;
 	public static final int OS_WINDOWS = 2;
@@ -23,22 +24,22 @@ public class NativeLibLoader {
 		int os = 0;
 		String sysName = System.getProperty("os.name");
 		if (sysName == null) {
-			logger.fatal("Native Library not available on unknown platform");
+			logger.error("Native Library not available on unknown platform");
 			os = OS_UNSUPPORTED;
 		} else {
 			sysName = sysName.toLowerCase();
-			if (sysName.indexOf("windows") != -1) {
-				if (sysName.indexOf("ce") != -1) {
+			if (sysName.contains("windows")) {
+				if (sysName.contains("ce")) {
 					os = OS_WINDOWS_CE;
 				} else {
 					os = OS_WINDOWS;
 				}
-			} else if (sysName.indexOf("mac os x") != -1) {
+			} else if (sysName.contains("mac os x")) {
 				os = OS_MAC_OS_X;
-			} else if (sysName.indexOf("linux") != -1) {
+			} else if (sysName.contains("linux")) {
 				os = OS_LINUX;
 			} else {
-				logger.fatal("Native Library not available on platform " + sysName);
+				logger.error("Native Library not available on platform " + sysName);
 				os = OS_UNSUPPORTED;
 			}
 		}
@@ -117,7 +118,7 @@ public class NativeLibLoader {
                     fileName += "_ce.dll";
                     break;
                 case OS_WINDOWS:
-                    if ((sysArch.indexOf("amd64") != -1) || (sysArch.indexOf("x86_64") != -1)) {
+                    if ((sysArch.contains("amd64")) || (sysArch.contains("x86_64"))) {
                         fileName += "_x64";
                     }
                     fileName +=  ".dll";
@@ -126,11 +127,11 @@ public class NativeLibLoader {
                     fileName += ".jnilib";
                     break;
                 case OS_LINUX:
-                    if ((sysArch.indexOf("i386") != -1) || (sysArch.length() == 0)) {
+                    if ((sysArch.contains("i386")) || (sysArch.length() == 0)) {
                         // regular Intel
-                    } else if ((sysArch.indexOf("amd64") != -1) || (sysArch.indexOf("x86_64") != -1)) {
+                    } else if ((sysArch.contains("amd64")) || (sysArch.contains("x86_64"))) {
                         fileName += "_x64";
-                    } else if ((sysArch.indexOf("x86") != -1)) {
+                    } else if ((sysArch.contains("x86"))) {
                         // regular Intel under IBM J9
                     } else {
                         // Any other system
@@ -160,7 +161,7 @@ public class NativeLibLoader {
 			copy2File (in, fileOut);			
 
 		} catch (Exception e) {
-			logger.fatal(e.toString(), e);	
+			logger.error(e.toString(), e);
 			throw new Exception("Error on loading library " + name, e);
 		}
 		finally {
@@ -190,7 +191,7 @@ public class NativeLibLoader {
 
 			lstLibraryLoaded.add(name);
 		} catch (Exception e) {
-			logger.fatal(e.toString(), e);	
+			logger.error(e.toString(), e);
 			throw new Exception("Error on loading library " + name, e);
 		}
 

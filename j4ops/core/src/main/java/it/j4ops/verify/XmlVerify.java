@@ -20,7 +20,8 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.xml.security.Init;
 import org.apache.xml.security.signature.XMLSignature;
@@ -33,7 +34,7 @@ import org.w3c.dom.*;
 
 
 class ResourceResolverInternal extends ResolverFragment {
-    private Logger logger = Logger.getLogger(this.getClass()); 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private Element siguatureElement = null;
     private Element xadesCtx = null;
     private Element dsCtx = null;
@@ -108,7 +109,7 @@ class ResourceResolverInternal extends ResolverFragment {
             }
         }
         catch (Exception ex) {
-            logger.fatal(ex.toString(), ex);
+            logger.error(ex.toString(), ex);
         }
         
         return result;
@@ -121,7 +122,7 @@ class ResourceResolverInternal extends ResolverFragment {
  * @author fzanutto
  */
 public class XmlVerify extends BaseVerify {
-    private Logger logger = Logger.getLogger(this.getClass());    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     private static final String XMLDSIGSpecNS = "http://www.w3.org/2000/09/xmldsig#";
     private static final String XAdESSpecNS = "http://uri.etsi.org/01903/v1.3.2#";    
@@ -178,7 +179,7 @@ public class XmlVerify extends BaseVerify {
                 X509Certificate x509Cert = (X509Certificate) factory.generateCertificate(new ByteArrayInputStream (cert));
 
                 // check signature
-                if (xmlSig.checkSignatureValue(x509Cert) == true) {
+                if (xmlSig.checkSignatureValue(x509Cert)) {
 
                     // create signer informations                     
                     SignerInfo signerInfo = new SignerInfo ();
@@ -222,7 +223,7 @@ public class XmlVerify extends BaseVerify {
                     logger.info (String.format("isCounterSignature:%b", signerInfo.isCounterSignature())); 
                 }     
                 else {
-                    logger.fatal ("Sign not verified");                
+                    logger.error ("Sign not verified");
                     throw new Exception ("Sign not verified");            
                 }
 

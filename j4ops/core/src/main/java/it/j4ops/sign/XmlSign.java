@@ -34,7 +34,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.xml.security.Init;
 import org.apache.xml.security.signature.ObjectContainer;
@@ -58,7 +59,7 @@ import org.w3c.dom.Text;
  * @author fzanutto
  */
 public class XmlSign extends BaseSign {
-    private Logger logger = Logger.getLogger(this.getClass());     
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     private static final String XMLDSIGSpecNS = "http://www.w3.org/2000/09/xmldsig#";
     private static final String XAdESSpecNS = "http://uri.etsi.org/01903/v1.3.2#";
@@ -207,7 +208,7 @@ public class XmlSign extends BaseSign {
 
         
         // check if need inizialization
-        if (isInitialized() == false) {
+        if (!isInitialized()) {
             throw new Exception ("need initialization");
         }          
         

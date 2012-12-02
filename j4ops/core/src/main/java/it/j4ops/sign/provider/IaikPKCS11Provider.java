@@ -12,10 +12,13 @@ import it.j4ops.util.HexString;
 import it.j4ops.util.IaikUtil;
 import it.j4ops.util.NativeLibLoader;
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -23,7 +26,7 @@ import org.apache.log4j.Logger;
  * @author fzanutto
  */
 public class IaikPKCS11Provider extends PKCS11Provider {
-    private static final Logger logger = Logger.getLogger (IaikPKCS11Provider.class); 
+    private static Logger logger = LoggerFactory.getLogger(IaikPKCS11Provider.class);
     private KeyIDAndX509Cert selectKeyIDAndCertificate;    
 
     private Mechanism mechanismSignAlgId = null;
@@ -31,8 +34,8 @@ public class IaikPKCS11Provider extends PKCS11Provider {
     private Session session = null;
     private boolean flagInit = false;
     
-	static {
-        try {
+	static {        
+        try {            
             int os = NativeLibLoader.getOS();
             String library = "";
             if (os == NativeLibLoader.OS_WINDOWS || 
@@ -49,7 +52,7 @@ public class IaikPKCS11Provider extends PKCS11Provider {
                 NativeLibLoader.addLibraryPath(filePath);
             }
         } catch (Exception ex) {
-            logger.fatal(ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
         }
 	}        
     
@@ -154,7 +157,7 @@ public class IaikPKCS11Provider extends PKCS11Provider {
     public byte [] sign(byte[] toEncrypt) throws Exception {
         
         // check if init provider
-        if (flagInit == false) {
+        if (!flagInit) {
             throw new Exception ("Provider not initialized");
         }        
         logger.info("KeyID:" + HexString.hexify(selectKeyIDAndCertificate.getKeyID()));        

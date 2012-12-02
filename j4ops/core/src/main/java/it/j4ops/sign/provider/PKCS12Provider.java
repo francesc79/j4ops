@@ -18,7 +18,8 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ import org.apache.log4j.Logger;
  */
 public class PKCS12Provider implements SignProvider {    
     
-    private Logger logger = Logger.getLogger(this.getClass());    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private String ketStoreFile;    
     private KeyStore caKs;
     private String password;
@@ -82,13 +83,13 @@ public class PKCS12Provider implements SignProvider {
             CertificateFactory factory = CertificateFactory.getInstance("X.509");
             Certificate[] certs = caKs.getCertificateChain(alias);
             if (certs != null && certs.length > 0) {
-                for (int index = 0; index < certs.length; index ++) {                    
-                    X509Certificate x509Cert = (X509Certificate)factory.generateCertificate(new ByteArrayInputStream(certs[index].getEncoded()));             
-                    logger.info(String.format("add certificate serial number: %d", x509Cert.getSerialNumber()));                    
+                for (Certificate cert : certs) {
+                    X509Certificate x509Cert = (X509Certificate) factory.generateCertificate(new ByteArrayInputStream(cert.getEncoded()));
+                    logger.info(String.format("add certificate serial number: %d", x509Cert.getSerialNumber()));
                     KeyIDAndX509Cert keyIDAndX509Cert = new KeyIDAndX509Cert();
                     keyIDAndX509Cert.setKeyID(alias.getBytes());
                     keyIDAndX509Cert.setX509Cert(x509Cert);
-                    keyIDAndX509Cert.setCertLabel(alias);                    
+                    keyIDAndX509Cert.setCertLabel(alias);
                     if (!lstKeyAndX509Cert.contains(keyIDAndX509Cert)) {
                         lstKeyAndX509Cert.add(keyIDAndX509Cert);
                     }
@@ -129,7 +130,7 @@ public class PKCS12Provider implements SignProvider {
     public byte[] sign(byte[] toEncrypt) throws Exception {
         
         // check if init provider
-        if (flagInit == false) {
+        if (!flagInit) {
             throw new Exception ("Provider not initialized");
         }
         

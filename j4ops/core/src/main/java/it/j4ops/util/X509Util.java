@@ -7,17 +7,18 @@ package it.j4ops.util;
 import iaik.pkcs.pkcs11.objects.X509PublicKeyCertificate;
 import java.io.*;
 import java.security.*;
-import java.security.cert.Certificate;
 import java.security.cert.*;
+import java.security.cert.Certificate;
 import java.util.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author fzanutto
  */
 public class X509Util {
-    private static Logger logger = Logger.getLogger(X509Util.class);    
+    private static Logger logger = LoggerFactory.getLogger(X509Util.class);
     
     public static String toString (X509PublicKeyCertificate certificate, String provider) {
         String certificateString = null;
@@ -26,7 +27,7 @@ public class X509Util {
                 X509Certificate correspondingCertificate = toX509Certificate(certificate.getValue().getByteArrayValue(), provider);
                 certificateString = correspondingCertificate.toString();
             } catch (Exception ex) {
-                logger.fatal(ex.getMessage(), ex);
+                logger.error(ex.getMessage(), ex);
                 certificateString = certificate.toString();
             }
         }
@@ -70,7 +71,7 @@ public class X509Util {
        
         if (keyUsage != null) {
             for (int index = 0; index < keyUsage.length; index ++) {
-                if (keyUsage[index] == true) {
+                if (keyUsage[index]) {
                     if (sb.length() > 0) {
                         sb.append(",");
                     }
@@ -196,7 +197,7 @@ public class X509Util {
 	 * 		are considered to be trusted root CA certificates. All the rest are
 	 * 		considered to be intermediate CA certificates.
 	 * @return the certification chain (if verification is successful)
-	 * @throws CertificateVerificationException - if the certification is not
+	 * @throws Exception - if the certification is not
 	 * 		successful (e.g. certification path cannot be built or some
 	 * 		certificate in the chain is expired or CRL checks are failed)
 	 */    

@@ -15,7 +15,8 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 
 /**
@@ -23,7 +24,7 @@ import org.apache.log4j.xml.DOMConfigurator;
  * @author fzanutto
  */
 public class ImportTrustedRootCerts {
-    private Logger logger = Logger.getLogger(this.getClass());    
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private KeyStore ks = null;
     private String keyFile = null;
     private String keyPass = null;
@@ -84,7 +85,7 @@ public class ImportTrustedRootCerts {
         ZipEntry entry;
 
         while ((entry = zis.getNextEntry()) != null) {
-            if (entry.isDirectory() == true) {
+            if (entry.isDirectory()) {
                 continue;
             }
             if (entry.getName().endsWith(".rtf")) {
@@ -150,7 +151,7 @@ public class ImportTrustedRootCerts {
         }
         
         X509Certificate x509Cert = X509Util.toX509Certificate(baos.toByteArray(), provider);
-        if (checkCertificateExists(x509Cert) == false) {
+        if (!checkCertificateExists(x509Cert)) {
             logger.debug(String.format("adding certificate %s", entry.getName()));
             ks.setCertificateEntry(entry.getName(), x509Cert);
         }

@@ -15,14 +15,15 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author fzanutto
  */
 public class IaikUtil {
-    private static Logger logger = Logger.getLogger(IaikUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(IaikUtil.class);
 
     public static Token selectToken(Module pkcs11Module, int slotID)
         throws TokenException, IOException {
@@ -38,7 +39,7 @@ public class IaikUtil {
         TokenInfo tokenInfo = token.getTokenInfo();
         long tokenID = token.getTokenID();
         logger.info("Token ID: " + tokenID);
-        logger.info(tokenInfo);        
+        logger.info(tokenInfo.toString());
         
         return token;
     }    
@@ -57,16 +58,16 @@ public class IaikUtil {
             tokens[i] = slotsWithToken[i].getToken();
             TokenInfo tokenInfo = tokens[i].getTokenInfo();
             long tokenID = tokens[i].getTokenID();
-            tokenIDtoToken.put(new Long(tokenID), tokens[i]);
+            tokenIDtoToken.put(tokenID, tokens[i]);
             logger.info("Token ID: " + tokenID);
-            logger.info(tokenInfo);
+            logger.info(tokenInfo.toString());
         }
         Token token = null;
         Long selectedTokenID = null;
         if (tokens.length == 0) {
             logger.info("There is no slot with a present token.");
         } else {
-            selectedTokenID = new Long(tokens[0].getTokenID());
+            selectedTokenID = tokens[0].getTokenID();
             token = tokens[0];
         }
         return token;

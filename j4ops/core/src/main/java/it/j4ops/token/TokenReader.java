@@ -10,14 +10,15 @@ import java.util.List;
 import javax.smartcardio.Card;
 import javax.smartcardio.CardTerminal;
 import javax.smartcardio.TerminalFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author fzanutto
  */
 public class TokenReader {
-    private static Logger logger = Logger.getLogger(TokenReader.class); 
+    private static Logger logger = LoggerFactory.getLogger(TokenReader.class);
     
     public static List<TokenInfo> listTokens (String file) throws Exception {
         ArrayList<TokenInfo> lstTokenInfos = new ArrayList<TokenInfo>();
@@ -35,7 +36,7 @@ public class TokenReader {
                 CardTerminal ct = lstTerminals.get(index);
                 logger.debug(String.format("Terminal:%s check card", ct.getName()));
                 
-                if (ct.isCardPresent() == true) {     
+                if (ct.isCardPresent()) {
                     card = ct.connect("*");
                     
                     logger.debug(String.format("SlotId: %d Terminal: %s ATR: %s", index, ct.getName(), 

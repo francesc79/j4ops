@@ -9,7 +9,8 @@ import it.j4ops.sign.provider.KeyIDAndX509Cert;
 import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
 import org.bouncycastle.util.Store;
@@ -19,7 +20,7 @@ import org.bouncycastle.util.Store;
  * @author fzanutto
  */
 public class BaseSignHandler implements SignHandler {
-    private Logger logger = Logger.getLogger(this.getClass()); 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private String pin;
     
     public BaseSignHandler (String pin) {
@@ -39,7 +40,7 @@ public class BaseSignHandler implements SignHandler {
             X509Certificate x509Cert =  keyIDAndX509Cert.getX509Cert();
             boolean []keyUsage = x509Cert.getKeyUsage();
             // 1 nonRepudiation
-            if (keyUsage != null && keyUsage[1] == true) {
+            if (keyUsage != null && keyUsage[1]) {
                 logger.debug("select certificate sn:" + x509Cert.getSerialNumber());
                 return keyIDAndX509Cert;
             }

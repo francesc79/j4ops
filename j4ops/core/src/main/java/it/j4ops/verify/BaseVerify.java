@@ -14,7 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
@@ -22,7 +23,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  * @author fzanutto
  */
 public abstract class BaseVerify {
-    private Logger logger = Logger.getLogger(this.getClass());     
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private Properties properties;    
     
     public BaseVerify (Properties prop) {

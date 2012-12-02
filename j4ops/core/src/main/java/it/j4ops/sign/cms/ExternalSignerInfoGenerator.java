@@ -20,7 +20,6 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
-import org.apache.log4j.Logger;
 import org.bouncycastle.asn1.ASN1EncodableVector;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1Sequence;
@@ -57,6 +56,8 @@ import org.bouncycastle.operator.DigestCalculator;
 import org.bouncycastle.operator.DigestCalculatorProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.tsp.TimeStampToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -64,7 +65,7 @@ import org.bouncycastle.tsp.TimeStampToken;
  * @author fzanutto
  */
 public class ExternalSignerInfoGenerator {
-    private Logger logger = Logger.getLogger(this.getClass());     
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
         
     private AttributeTable unsignedAttrTable = null;
     private AttributeTable signedAttrTable = null;     

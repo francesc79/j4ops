@@ -28,7 +28,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -42,7 +43,7 @@ import org.bouncycastle.util.CollectionStore;
  * @author fzanutto
  */
 public class CmsSign extends BaseSign {
-    private Logger logger = Logger.getLogger(this.getClass());     
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     public CmsSign (SignProvider signProvider, SignHandler signHandler, Properties properties) {
         super(signProvider, signHandler, properties);        
@@ -52,7 +53,7 @@ public class CmsSign extends BaseSign {
         byte[] contentBytes = null;        
 
         // check if need inizialization
-        if (isInitialized() == false) {
+        if (!isInitialized()) {
             throw new Exception ("need initialization");
         }        
         
@@ -60,7 +61,7 @@ public class CmsSign extends BaseSign {
         contentBytes = DERUtil.streamToByteArray(srcIS);  
 
         // check if convert from b64
-        if (Base64.isBase64(contentBytes) == true) {
+        if (Base64.isBase64(contentBytes)) {
             contentBytes = Base64.decodeBase64(contentBytes);
         }           
 
@@ -104,7 +105,7 @@ public class CmsSign extends BaseSign {
 
         // add certificates if not exists
         X509CertificateHolder certHolder = new X509CertificateHolder(x509Cert.getEncoded());
-        if (externalCMSSignedDataGenerator.getCertificates().getMatches(null).contains(certHolder) == false) {
+        if (!externalCMSSignedDataGenerator.getCertificates().getMatches(null).contains(certHolder)) {
             List <X509CertificateHolder> lstCertsHolder = new ArrayList<X509CertificateHolder>();
             for (X509Certificate cert : x509CertChain) { 
                 lstCertsHolder.add(new X509CertificateHolder(cert.getEncoded()));
@@ -139,7 +140,7 @@ public class CmsSign extends BaseSign {
         byte[] contentBytes = null;        
         
         // check if need inizialization
-        if (isInitialized() == false) {
+        if (!isInitialized()) {
             throw new Exception ("need initialization");
         }            
         
@@ -147,7 +148,7 @@ public class CmsSign extends BaseSign {
         contentBytes = DERUtil.streamToByteArray(srcIS);  
 
         // check if convert from b64
-        if (Base64.isBase64(contentBytes) == true) {
+        if (Base64.isBase64(contentBytes)) {
             contentBytes = Base64.decodeBase64(contentBytes);
         }          
 
@@ -196,7 +197,7 @@ public class CmsSign extends BaseSign {
 
             // add certificates if not exists
             X509CertificateHolder certHolder = new X509CertificateHolder(x509Cert.getEncoded());
-            if (externalCMSSignedDataGenerator.getCertificates().getMatches(null).contains(certHolder) == false) {
+            if (!externalCMSSignedDataGenerator.getCertificates().getMatches(null).contains(certHolder)) {
                 List <X509CertificateHolder> lstCertsHolder = new ArrayList<X509CertificateHolder>();
                 for (X509Certificate cert : x509CertChain) { 
                     lstCertsHolder.add(new X509CertificateHolder(cert.getEncoded()));
