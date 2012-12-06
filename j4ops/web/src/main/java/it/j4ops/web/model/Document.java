@@ -3,16 +3,17 @@ package it.j4ops.web.model;
 import java.util.Date;
 
 public class Document {
-    private String fileName;
+    private String name;
     private Date lastModified;
     private long size;
+    private boolean checked;
 
-    public String getFileName() {
-        return fileName;
+    public String getName() {
+        return name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getLastModified() {
@@ -29,5 +30,13 @@ public class Document {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }
