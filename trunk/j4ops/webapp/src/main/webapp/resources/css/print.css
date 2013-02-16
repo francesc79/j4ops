@@ -1,0 +1,36 @@
+body {
+    font: 12pt Arial,sans-serif
+}
+
+h1,h2,h3 {
+    font-family: "Trebuchet MS",Arial,sans-serif
+}
+
+h1 {
+    font-size: 160%
+}
+
+h2 {
+    font-size: 140%
+}
+
+h3 {
+    font-size: 120%
+}
+
+p {
+    line-height: 1.2
+}
+
+div#header {
+    border-bottom: 1px solid #000
+}
+
+div#sidebar, a#skipnav {
+    display:none
+}
+
+div#footer {
+    border-top: 1px solid #000;
+    font-size: 80%
+}
